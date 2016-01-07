@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.person">
+
+    <!-- Dexterity Directory -->
+
+    <browser:page
+        for="..content.directory.IDirectory"
+        name="api"
+        class=".DirectoryView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
+    <!-- Dexterity Person -->
+
+    <browser:page
+        for="..content.person.IPerson"
+        name="api"
+        class=".PersonView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
+</configure>
