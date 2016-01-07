@@ -26,33 +26,37 @@
                     office_state context/office_state|nothing;
                     office_zip_code context/office_zip_code|nothing;"
         tal:condition="python: office_address or office_city">
-        
-        <span tal:replace="structure python:office_address.strip().replace('\n', '<br />')" /><br />
-        <span tal:replace="office_city" /><tal:block tal:condition="office_state">, </tal:block>
-        <span tal:content="office_state" />
-        <span tal:content="office_zip_code" />
+        <h3>Address</h3>
+        <p>
+            <span tal:replace="structure python:office_address.strip().replace('\n', '<br />')" /><br />
+            <span tal:replace="office_city" /><tal:block tal:condition="office_state">, </tal:block>
+            <span tal:content="office_state" />
+            <span tal:content="office_zip_code" />
+        </p>
     </div>
 
     <div 
         tal:define="email context/email|nothing"
         tal:condition="email">
-        Email:
-        <a tal:attributes="href string:mailto:${email}"
-            tal:content="email" />
+        <h3>Email</h3>
+        <p>
+            <a tal:attributes="href string:mailto:${email}"
+                tal:content="email" />
+        </p>
     </div>
 
     <div 
         tal:define="office_phone context/office_phone|nothing"
         tal:condition="office_phone">
-        Phone:
-        <span tal:replace="office_phone" />
+        <h3>Phone</h3>
+        <p tal:content="office_phone" />
     </div>
 
     <div 
-        tal:define="office_fax context/office_fax|nothing"
-        tal:condition="office_fax">
-        Phone:
-        <span tal:replace="office_fax" />
+        tal:define="fax_number context/fax_number|nothing"
+        tal:condition="fax_number">
+        <h3>Fax</h3>
+        <p tal:content="fax_number" />
     </div>
 
     <h2>Professional Information</h2>
@@ -93,11 +97,26 @@
         <ul>
             <li tal:repeat="item items">
                 <span tal:content="item/title" />:
-                <a tal:attributes="href item/url" tal:content="item/url" />
+                <a tal:attributes="href item/value" tal:content="item/value" />
             </li>
 
         </ul>
     </tal:social_media>
+
+    <tal:metadata
+        tal:define="items context/getMetadata|nothing"
+        tal:condition="items">
+        <h2>Metadata</h2>
+        
+        <tal:items
+            tal:repeat="i items">
+                <h3 tal:content="i/title" />
+                <ul>
+                    <li tal:repeat="j i/value" tal:content="j" />
+                </ul>
+        </tal:items>
+    </tal:metadata>
+    
 
 </metal:main>
 

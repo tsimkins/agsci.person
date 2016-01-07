@@ -1,4 +1,5 @@
 from .. import personMessageFactory as _
+from agsci.atlas.content.behaviors import IAtlasMetadata
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
 from plone.app.textfield import RichText
@@ -183,24 +184,42 @@ class Person(Item):
     def getSortableName(self):
         fields = ['last_name', 'first_name', 'middle_name', ]
         return tuple([getattr(self, x, '') for x in fields])
-    
-    def getSocialMedia(self):
-        schema_fields = [x for x in IPerson.namesAndDescriptions() if x[0] in social_media_fields]
-        
+
+    def getFieldTitlesAndValues(self, fields, schemas=[]):
+
         data = []
         
-        for x in social_media_fields:
-            try:
-                y = IPerson.getDescriptionFor(x)
-            except KeyError:
-                continue
+        for field_name in fields:
 
-            z = getattr(self, x, None)
+            field_schema = None
+            
+            for i in schemas:
+                try:
+                    field_schema = i.getDescriptionFor(field_name)
+                except KeyError:
+                    continue
+                else:
+                    break
 
-            if z:
-                data.append({'title' : y.title, 'url' : z})
+            field_value = getattr(self, field_name, None)
+
+            if field_value:
+                data.append({'title' : field_schema.title, 'value' : field_value})
 
         return data
+        
+    def getSocialMedia(self):
+       
+        return self.getFieldTitlesAndValues(social_media_fields, [IPerson,])
+
+
+    def getMetadata(self):
+    
+        fields = ['classifications', 'counties', 'atlas_category', 'atlas_program', 'atlas_topic', 'atlas_subtopic']
+        
+        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata])
+            
+        
 
 
 class ITitleFromPersonUserId(INameFromTitle):
