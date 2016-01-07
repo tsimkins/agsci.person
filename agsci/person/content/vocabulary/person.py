@@ -2,9 +2,6 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implements
 
-classifications = ['Faculty', 'Staff', 'Educator', 'District Director',
-                          'Assistant Director of Programs',]
-
 states = ['PA', ]
 
 from counties import counties
@@ -15,6 +12,8 @@ class ClassificationsVocabulary(object):
     implements(IVocabularyFactory)
     
     def __call__(self, context):
+
+        classifications = getattr(context, 'classifications', ['Faculty', 'Staff'])
 
         return SimpleVocabulary(
             [SimpleTerm(x ,title=x) for x in classifications]
