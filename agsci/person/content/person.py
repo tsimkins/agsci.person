@@ -183,6 +183,25 @@ class Person(Item):
     def getSortableName(self):
         fields = ['last_name', 'first_name', 'middle_name', ]
         return tuple([getattr(self, x, '') for x in fields])
+    
+    def getSocialMedia(self):
+        schema_fields = [x for x in IPerson.namesAndDescriptions() if x[0] in social_media_fields]
+        
+        data = []
+        
+        for x in social_media_fields:
+            try:
+                y = IPerson.getDescriptionFor(x)
+            except KeyError:
+                continue
+
+            z = getattr(self, x, None)
+
+            if z:
+                data.append({'title' : y.title, 'url' : z})
+
+        return data
+
 
 class ITitleFromPersonUserId(INameFromTitle):
     def title():

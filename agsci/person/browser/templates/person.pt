@@ -7,11 +7,97 @@
       i18n:domain="plone.app.dexterity">
 <body>
 
+<metal:main fill-slot="content-description">
+
+    <ul class="documentDescription"
+        tal:define="job_titles context/job_titles|nothing"
+        tal:condition="job_titles">
+        <li tal:repeat="i job_titles" tal:content="i" />
+    </ul>
+</metal:main>
+
 <metal:main fill-slot="content-core">
 
-Hello <span tal:replace="context/title" /> <span tal:replace="context/getId" />
-<span tal:replace="context/getPhysicalPath" />
+    <h2>Contact Information</h2>
 
+    <div 
+        tal:define="office_address context/office_address|nothing;
+                    office_city context/office_city|nothing;
+                    office_state context/office_state|nothing;
+                    office_zip_code context/office_zip_code|nothing;"
+        tal:condition="python: office_address or office_city">
+        
+        <span tal:replace="structure python:office_address.strip().replace('\n', '<br />')" /><br />
+        <span tal:replace="office_city" /><tal:block tal:condition="office_state">, </tal:block>
+        <span tal:content="office_state" />
+        <span tal:content="office_zip_code" />
+    </div>
+
+    <div 
+        tal:define="email context/email|nothing"
+        tal:condition="email">
+        Email:
+        <a tal:attributes="href string:mailto:${email}"
+            tal:content="email" />
+    </div>
+
+    <div 
+        tal:define="office_phone context/office_phone|nothing"
+        tal:condition="office_phone">
+        Phone:
+        <span tal:replace="office_phone" />
+    </div>
+
+    <div 
+        tal:define="office_fax context/office_fax|nothing"
+        tal:condition="office_fax">
+        Phone:
+        <span tal:replace="office_fax" />
+    </div>
+
+    <h2>Professional Information</h2>
+
+    <tal:areas 
+        tal:define="items context/areas_expertise|nothing"
+        tal:condition="items">
+        
+        <h3>Areas of Expertise</h3>
+        <ul>
+            <li tal:repeat="item items"
+                tal:content="item" />
+        </ul>
+
+    </tal:areas>
+
+    <tal:education 
+        tal:define="items context/education|nothing"
+        tal:condition="items">
+        
+        <h3>Education</h3>
+        <ul>
+            <li tal:repeat="item items"
+                tal:content="item" />
+        </ul>
+
+    </tal:education>
+
+    <div class="biography" 
+        tal:define="bio context/bio|nothing"
+        tal:condition="bio"
+        tal:content="structure bio" />
+
+    <tal:social_media
+        tal:define="items context/getSocialMedia|nothing"
+        tal:condition="items">
+        <h2>Social Media</h2>
+        <ul>
+            <li tal:repeat="item items">
+                <span tal:content="item/title" />:
+                <a tal:attributes="href item/url" tal:content="item/url" />
+            </li>
+
+        </ul>
+    </tal:social_media>
 
 </metal:main>
 
