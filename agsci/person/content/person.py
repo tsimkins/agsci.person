@@ -10,16 +10,6 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
-# Directory
-
-class IDirectory(model.Schema):
-    pass
-
-class Directory(Container):
-
-    def listPeople(self):
-        return self.listFolderContents({'Type' : 'Person', 'sort_on' : 'sortable_title'})
-
 # Person
 
 # Set up fields for re-use in API output
