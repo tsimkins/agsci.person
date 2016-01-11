@@ -1,4 +1,4 @@
-from agsci.common.api import BaseView, BaseContainerView
+from agsci.api import BaseView, BaseContainerView
 from ..content.person import IPerson, contact_fields, professional_fields, social_media_fields
 
 class DirectoryView(BaseContainerView):
