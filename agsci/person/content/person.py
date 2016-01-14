@@ -2,7 +2,6 @@ from .. import personMessageFactory as _
 from agsci.atlas.content.behaviors import IAtlasMetadata
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
-from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item, Container
