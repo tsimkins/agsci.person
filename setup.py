@@ -26,6 +26,7 @@ setup(name='agsci.person',
     zip_safe=False,
     install_requires=[
       'setuptools',
+      'dexterity.membrane',
       # -*- Extra requirements: -*-
       ],
     entry_points="""
