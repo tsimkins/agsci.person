@@ -214,7 +214,7 @@ class Person(Item):
 
     def getMetadata(self):
     
-        fields = ['classifications', 'counties', 'atlas_category', 'atlas_program', 'atlas_topic', 'atlas_subtopic']
+        fields = ['classifications', 'counties', 'atlas_category', 'atlas_program', 'atlas_topic', 'atlas_filters']
         
         return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata])
             
