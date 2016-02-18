@@ -9,18 +9,10 @@ class DirectoryView(BaseContainerView):
 
 class PersonView(BaseView):
 
-    # Configure data nested data (easier to read this way!)
-    structures = {
-        'name' : ['first_name', 'middle_name', 'last_name', 'suffix'],   
-        'social_media' : social_media_fields,
-        'contact' : contact_fields,
-        'professional' : professional_fields,
-    }
-
     def getData(self):
         data = super(PersonView, self).getData()
         
-        sd = self.getStructuredData(schemas=(IPerson,), structures=self.structures)
+        sd = self.getSchemaData(schemas=(IPerson,), fields=[])
         
         data.update(sd)
 
