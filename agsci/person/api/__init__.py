@@ -11,8 +11,8 @@ class PersonView(BaseView):
 
     def getData(self):
         data = super(PersonView, self).getData()
-        
-        sd = self.getSchemaData(schemas=[IPerson,], fields=[])
+
+        sd = self.getSchemaData(schemas=[IPerson,])
         
         data.update(sd)
 
