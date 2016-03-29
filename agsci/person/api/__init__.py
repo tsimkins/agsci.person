@@ -1,5 +1,6 @@
 from agsci.api import BaseView, BaseContainerView
-from ..content.person import IPerson, contact_fields, professional_fields, social_media_fields
+from dexterity.membrane.content.member import IMember
+from ..content.person import IPerson
 
 class DirectoryView(BaseContainerView):
 
@@ -12,8 +13,8 @@ class PersonView(BaseView):
     def getData(self):
         data = super(PersonView, self).getData()
 
-        sd = self.getSchemaData(schemas=[IPerson,])
-        
+        sd = self.getSchemaData(schemas=[IMember, IPerson], fields=['email'])
+
         data.update(sd)
 
         return data
