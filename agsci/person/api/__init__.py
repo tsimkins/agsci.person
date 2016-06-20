@@ -6,7 +6,13 @@ class DirectoryView(BaseContainerView):
 
     # Explicitly only list people
     def getContents(self):
-        return self.context.listPeople()
+
+        # Pass the result of `getModifiedCriteria` (reflecting a last modified date
+        # based on an `updated` parameter passed in via the URL) to the `listPeople`
+        # method.
+        modified = self.getModifiedCriteria()
+
+        return self.context.listPeople(modified)
 
 class PersonView(BaseView):
 

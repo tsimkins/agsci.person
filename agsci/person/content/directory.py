@@ -1,4 +1,6 @@
 from .. import personMessageFactory as _
+from Products.CMFCore.utils import getToolByName
+from agsci.api.utilities import toISO
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
@@ -16,6 +18,13 @@ class IDirectory(model.Schema):
 
 class Directory(Container):
 
-    def listPeople(self):
-        return self.listFolderContents({'Type' : 'Person', 'sort_on' : 'sortable_title'})
+    def listPeople(self, modified=None):
+        portal_catalog = getToolByName(self, 'portal_catalog')
+
+        query = {'Type' : 'Person', 'sort_on' : 'sortable_title'}
+
+        if modified:
+            query['modified'] = {'range' : 'min', 'query' : modified}
+
+        return map(lambda x: x.getObject(), portal_catalog.searchResults(query))
 
