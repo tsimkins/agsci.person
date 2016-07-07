@@ -1,5 +1,5 @@
 from .. import personMessageFactory as _
-from agsci.atlas.content.behaviors import IAtlasMetadata
+from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasCounty
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
@@ -16,7 +16,7 @@ from zope.interface import implements, provider, implementer
 
 contact_fields = ['email', 'venue', 'office_address', 'office_city', 'office_state', 'office_zip_code', 'office_phone', 'fax_number', ]
 
-professional_fields = ['classifications', 'counties', 'job_titles', 'bio', 'areas_expertise', 'education', ]
+professional_fields = ['classifications', 'job_titles', 'bio', 'areas_expertise', 'education', ]
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url', ]
 
@@ -127,12 +127,6 @@ class IPerson(IMember):
         required=False,
     )
 
-    counties = schema.List(
-        title=_(u"Counties"),
-        value_type=schema.Choice(vocabulary="agsci.person.counties"),
-        required=False,
-    )
-
     areas_expertise = schema.List(
         title=_(u"Areas of Expertise"),
         value_type=schema.TextLine(required=True),
@@ -202,7 +196,7 @@ class Person(Item):
 
             field_value = getattr(self, field_name, None)
 
-            if field_value:
+            if field_schema and field_value:
                 data.append({'title' : field_schema.title, 'value' : field_value})
 
         return data
@@ -214,9 +208,9 @@ class Person(Item):
 
     def getMetadata(self):
     
-        fields = ['classifications', 'counties', 'atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
+        fields = ['classifications', 'county', 'atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
         
-        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata])
+        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata, IAtlasCounty])
             
         
 
