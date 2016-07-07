@@ -23,10 +23,10 @@ class PersonView(BaseView):
         
         # Add a 'job_title' field with the primary job title
         
-        job_titles = sd.get('job_titles', [])
+        job_titles = sd.get('person_job_titles', [])
         
         if job_titles:
-            sd['job_title'] = job_titles[0] # Note *singular*
+            sd['person_job_title'] = job_titles[0] # Note *singular*
 
         data.update(sd)
 
