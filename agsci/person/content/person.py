@@ -14,7 +14,7 @@ from zope.interface import implements, provider, implementer
 
 # Set up fields for re-use in API output
 
-contact_fields = ['email', 'venue', 'office_address', 'office_city', 'office_state', 'office_zip_code', 'office_phone', 'fax_number', ]
+contact_fields = ['email', 'venue', 'office_address', 'office_city', 'office_state', 'office_zip_code', 'office_phone', 'fax_number', 'primary_profile_url']
 
 professional_fields = ['classifications', 'job_titles', 'bio', 'areas_expertise', 'education', ]
 
@@ -152,6 +152,13 @@ class IPerson(IMember):
         title=_(u"Google+ URL"),
         required=False,
     )
+
+    primary_profile_url = schema.TextLine(
+        title=_(u"Primary Profile URL"),
+        description=_(u"URL of primary profile (if not Extension site)"),
+        required=False,
+    )
+
 
 # Calculate "Title" as person name
 # Based on http://davidjb.com/blog/2010/04/plone-and-dexterity-working-with-computed-fields/
