@@ -1,5 +1,6 @@
 from .. import personMessageFactory as _
-from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasCounty
+from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasContact
+from agsci.leadimage.content.behaviors import ILeadImageBase
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
@@ -14,14 +15,14 @@ from zope.interface import implements, provider, implementer
 
 # Set up fields for re-use in API output
 
-contact_fields = ['email', 'venue', 'office_address', 'office_city', 'office_state', 'office_zip_code', 'office_phone', 'fax_number', 'primary_profile_url']
+contact_fields = ['email', 'venue', 'street_address', 'city', 'state', 'zip_code', 'phone_number', 'fax_number', 'primary_profile_url']
 
 professional_fields = ['classifications', 'job_titles', 'bio', 'areas_expertise', 'education', ]
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url', ]
 
 @provider(IFormFieldProvider)
-class IPerson(IMember):
+class IPerson(IMember, IAtlasContact, ILeadImageBase):
 
     # Fieldsets
 
@@ -43,7 +44,9 @@ class IPerson(IMember):
         fields=social_media_fields,
     )
 
-    form.omitted('homepage')
+    form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption')
+    form.mode(leadimage_show='hidden')
+    form.order_after(leadimage='suffix')
 
     # Fields
 
@@ -77,42 +80,6 @@ class IPerson(IMember):
         title=_(u"Classifications"),
         required=True,
         value_type=schema.Choice(vocabulary="agsci.person.classifications"),
-    )
-
-    venue = schema.TextLine(
-        title=_(u"Venue/Building Name"),
-        required=False,
-    )
-
-    office_address = schema.Text(
-        title=_(u"Office Address"),
-        required=False,
-    )
-
-    office_city = schema.TextLine(
-        title=_(u"Office City"),
-        required=False,
-    )
-
-    office_state = schema.Choice(
-        title=_(u"Office State"),
-        vocabulary="agsci.person.states",
-        required=False,
-    )
-
-    office_zip_code = schema.TextLine(
-        title=_(u"Office ZIP Code"),
-        required=False,
-    )
-
-    office_phone = schema.TextLine(
-        title=_(u"Office Phone"),
-        required=False,
-    )
-
-    fax_number = schema.TextLine(
-        title=_(u"Fax Number"),
-        required=False,
     )
 
     job_titles = schema.List(
@@ -217,10 +184,7 @@ class Person(Item):
     
         fields = ['classifications', 'county', 'atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
         
-        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata, IAtlasCounty])
-            
-        
-
+        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata, IAtlasContact])
 
 class ITitleFromPersonUserId(INameFromTitle):
     def title():
