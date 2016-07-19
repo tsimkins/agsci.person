@@ -17,7 +17,7 @@ from zope.interface import implements, provider, implementer
 
 contact_fields = ['email', 'venue', 'street_address', 'city', 'state', 'zip_code', 'phone_number', 'fax_number', 'primary_profile_url']
 
-professional_fields = ['classifications', 'job_titles', 'bio', 'areas_expertise', 'education', ]
+professional_fields = ['classifications', 'job_titles', 'bio', 'education', 'areas_expertise', 'county' ]
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url', ]
 
