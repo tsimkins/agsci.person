@@ -13,6 +13,11 @@
         factory=".person.TitleFromPersonUserId"
     />
 
+    <adapter
+         factory=".person.PersonDefaultRoles"
+         provides="Products.membrane.interfaces.IMembraneUserRoles"
+    />
+
     <!-- Vocabularies  -->
 
     <utility

@@ -1,6 +1,9 @@
 from .. import personMessageFactory as _
+from Products.membrane.interfaces import IMembraneUserRoles
 from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasContact
 from agsci.leadimage.content.behaviors import ILeadImageBase
+from dexterity.membrane.behavior.user import DxUserObject
+from dexterity.membrane.behavior.user import IMembraneUser
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
@@ -126,6 +129,17 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase):
         required=False,
     )
 
+# Configuring default roles with Dexterity
+# http://docs.plone.org/develop/plone/members/membrane.html#id11
+
+DEFAULT_ROLES = ['Member']
+
+@implementer(IMembraneUserRoles)
+@adapter(IPerson)
+class PersonDefaultRoles(DxUserObject):
+
+    def getRolesForPrincipal(self, principal, request=None):
+        return DEFAULT_ROLES
 
 # Calculate "Title" as person name
 # Based on http://davidjb.com/blog/2010/04/plone-and-dexterity-working-with-computed-fields/
