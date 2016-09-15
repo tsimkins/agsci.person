@@ -107,7 +107,7 @@
         tal:define="folderContents view/getPersonProducts"
         tal:condition="folderContents">
         
-        <metal:listing use-macro="context/@@atlas_structure/macros/product-listing" />
+        <metal:listing use-macro="context/@@product_listing/macros/product-listing" />
 
     </tal:products>
 
