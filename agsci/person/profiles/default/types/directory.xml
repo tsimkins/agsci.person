@@ -24,6 +24,7 @@
  <property name="klass">agsci.person.content.directory.Directory</property>
  <property name="behaviors">
     <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
+    <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
  </property>
   
   <property name="schema">agsci.person.content.directory.IDirectory</property>

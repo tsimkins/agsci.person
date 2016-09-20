@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.dexterity">
+<body>
+
+<metal:main fill-slot="content-core">
+
+    <tal:people define="folderContents view/getPeople;
+                        limit_display python: 99999">
+    
+        <metal:people use-macro="context/@@product_listing/macros/product-listing">
+
+            <metal:heading fill-slot="product-heading">
+                <h2>People</h2>
+            </metal:heading>
+
+            <metal:product-count fill-slot="product-count">
+                <p class="discreet"
+                    tal:condition="folderContents">
+        
+                    <strong tal:content="python: len(folderContents)" /> people found.
+                </p>
+            </metal:product-count>
+            
+        </metal:people>
+    </tal:people>
+            
+</metal:main>
+
+</body>
+</html>
+
+
