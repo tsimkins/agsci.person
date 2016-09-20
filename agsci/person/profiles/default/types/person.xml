@@ -23,7 +23,7 @@
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
   <element value="dexterity.membrane.behavior.user.IMembraneUser" />
-  <element value="agsci.common.content.behaviors.container.ITileFolder" />
+  <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
  </property>
   
   <property name="schema">agsci.person.content.person.IPerson</property>

@@ -11,7 +11,7 @@
         class=".views.PersonView"
         template="templates/person.pt"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
 
