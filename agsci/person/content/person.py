@@ -1,7 +1,5 @@
-from .. import personMessageFactory as _
+from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import IMembraneUserRoles
-from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasContact
-from agsci.leadimage.content.behaviors import ILeadImageBase
 from dexterity.membrane.behavior.user import DxUserObject
 from dexterity.membrane.behavior.user import IMembraneUser
 from dexterity.membrane.content.member import IMember
@@ -13,6 +11,11 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
+
+from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasContact
+from agsci.leadimage.content.behaviors import ILeadImageBase
+
+from .. import personMessageFactory as _
 
 # Person
 
@@ -34,7 +37,7 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase):
         label=_(u'Contact Information'),
         fields=contact_fields,
     )
-    
+
     model.fieldset(
         'professional',
         label=_(u'Professional Information'),
@@ -151,9 +154,9 @@ class Person(Item):
 
         fields = ['first_name', 'middle_name', 'last_name']
         names = [getattr(self, x, '') for x in fields]
-    
+
         v = " ".join([x.strip() for x in names if x])
-        
+
         if getattr(self, 'suffix', ''):
             v = "%s, %s" % (v, self.suffix.strip())
 
@@ -169,11 +172,11 @@ class Person(Item):
     def getFieldTitlesAndValues(self, fields, schemas=[]):
 
         data = []
-        
+
         for field_name in fields:
 
             field_schema = None
-            
+
             for i in schemas:
                 try:
                     field_schema = i.getDescriptionFor(field_name)
@@ -188,17 +191,42 @@ class Person(Item):
                 data.append({'title' : field_schema.title, 'value' : field_value})
 
         return data
-        
+
     def getSocialMedia(self):
-       
+
         return self.getFieldTitlesAndValues(social_media_fields, [IPerson,])
 
 
     def getMetadata(self):
-    
+
         fields = ['classifications', 'county', 'atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
-        
+
         return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata, IAtlasContact])
+
+    def getProducts(self):
+        portal_catalog = getToolByName(self, "portal_catalog")
+        return portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                                                  'Owners' : self.username,
+                                                  'sort_on' : 'sortable_title',
+                                                })
+    def ContentIssues(self):
+        issues = [0,0,0,0]
+        
+        for p in self.getProducts():
+            content_issues = p.ContentIssues
+            
+            if content_issues == (0,0,0):
+                issues[3] = issues[3] + 1
+
+            elif content_issues and isinstance(content_issues, tuple) and len(content_issues) == 3:
+                for i in range(0,3):
+                    if content_issues[i] > 0:
+                        issues[i] = issues[i] + 1
+                        break
+
+        return tuple(issues)
+    
+
 
 class ITitleFromPersonUserId(INameFromTitle):
     def title():

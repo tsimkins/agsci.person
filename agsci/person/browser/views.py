@@ -9,10 +9,7 @@ class PersonView(AtlasStructureView):
 
     def getPersonProducts(self):
     
-        return self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-                                                  'Owners' : self.context.username,
-                                                  'sort_on' : 'sortable_title',
-                                                })        
+        return self.context.getProducts()       
 
     @property
     def getTileColumns(self):
