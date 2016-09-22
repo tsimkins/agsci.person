@@ -4,12 +4,11 @@ from agsci.atlas.browser.views import AtlasStructureView
 
 class IPersonView(Interface):
     pass
-    
+
 class PersonView(AtlasStructureView):
 
     def getPersonProducts(self):
-    
-        return self.context.getProducts()       
+        return self.context.getProducts()
 
     @property
     def getTileColumns(self):
