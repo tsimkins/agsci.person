@@ -13,7 +13,7 @@ class ClassificationsVocabulary(object):
     
     def __call__(self, context):
 
-        classifications = []
+        classifications = ['Faculty', 'Staff']
 
         for o in context.aq_chain:
     
@@ -21,7 +21,8 @@ class ClassificationsVocabulary(object):
                 break
     
             if IDirectory.providedBy(o):
-                classifications = getattr(o, 'classifications', ['Faculty', 'Staff'])
+                if hasattr(o, 'classifications') and o.classifications:
+                    classifications = list(o.classifications)
                 break
 
         return SimpleVocabulary(
