@@ -24,7 +24,7 @@ class Directory(Container):
         query = {'Type' : 'Person', 'sort_on' : 'sortable_title'}
 
         if modified:
-            query['modified'] = {'range' : 'min', 'query' : modified}
+            query['modified'] = modified
 
         return map(lambda x: x.getObject(), portal_catalog.searchResults(query))
 
