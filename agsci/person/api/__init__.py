@@ -1,4 +1,4 @@
-from agsci.api import BaseView, BaseContainerView
+from agsci.api.api import BaseView, BaseContainerView
 from dexterity.membrane.content.member import IMember
 from ..content.person import IPerson
 
