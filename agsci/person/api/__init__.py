@@ -20,11 +20,11 @@ class PersonView(BaseView):
         data = super(PersonView, self).getData()
 
         sd = self.getSchemaData(schemas=[IMember, IPerson], fields=['email'])
-        
+
         # Add a 'job_title' field with the primary job title
-        
+
         job_titles = sd.get('person_job_titles', [])
-        
+
         if job_titles:
             sd['person_job_title'] = sd['short_description'] = job_titles[0] # Note *singular*
 
