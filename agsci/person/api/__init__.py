@@ -28,6 +28,9 @@ class PersonView(BaseView):
         if job_titles:
             sd['person_job_title'] = sd['short_description'] = job_titles[0] # Note *singular*
 
+        # Overriding Plone product type of 'Person' with Magento product type of 'Educators'
+        data['product_type'] = 'Educators'
+
         data.update(sd)
 
         return data
