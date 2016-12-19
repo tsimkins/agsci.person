@@ -21,14 +21,14 @@
     <h2>Contact Information</h2>
 
     <div 
-        tal:define="office_address context/office_address|nothing;
-                    office_city context/office_city|nothing;
-                    office_state context/office_state|nothing;
-                    office_zip_code context/office_zip_code|nothing;"
-        tal:condition="python: office_address or office_city">
+        tal:define="street_address context/street_address|nothing;
+                    office_city context/city|nothing;
+                    office_state context/state|nothing;
+                    office_zip_code context/zip_code|nothing;"
+        tal:condition="python: street_address or office_city">
         <h3>Address</h3>
         <p>
-            <span tal:replace="structure python:office_address.strip().replace('\n', '<br />')" /><br />
+            <span tal:replace="structure python:street_address.strip().replace('\n', '<br />')" /><br />
             <span tal:replace="office_city" /><tal:block tal:condition="office_state">, </tal:block>
             <span tal:content="office_state" />
             <span tal:content="office_zip_code" />
@@ -46,7 +46,7 @@
     </div>
 
     <div 
-        tal:define="office_phone context/office_phone|nothing"
+        tal:define="office_phone context/phone_number|nothing"
         tal:condition="office_phone">
         <h3>Phone</h3>
         <p tal:content="office_phone" />
