@@ -22,11 +22,19 @@ class PersonView(BaseView):
         sd = self.getSchemaData(schemas=[IMember, IPerson], fields=['email'])
 
         # Add a 'job_title' field with the primary job title
-
         job_titles = sd.get('person_job_titles', [])
 
         if job_titles:
             sd['person_job_title'] = sd['short_description'] = job_titles[0] # Note *singular*
+
+        # Split `street_address` into a list
+        street_address = data.get('address', None)
+
+        if isinstance(street_address, (str, unicode)):
+            street_address = street_address.strip()
+            street_address = street_address.replace('\r', '\n')
+            street_address = [x.strip() for x in street_address.split('\n') if x.strip()]
+            sd['address'] = street_address[0:3] # First three lines only
 
         data.update(sd)
 
