@@ -20,7 +20,7 @@
 
     <h2>Contact Information</h2>
 
-    <div 
+    <div
         tal:define="street_address context/street_address|nothing;
                     office_city context/city|nothing;
                     office_state context/state|nothing;
@@ -28,14 +28,17 @@
         tal:condition="python: street_address or office_city">
         <h3>Address</h3>
         <p>
-            <span tal:replace="structure python:street_address.strip().replace('\n', '<br />')" /><br />
+            <tal:street_address tal:repeat="i street_address">
+                <span tal:replace="i" />
+                <br />
+            </tal:street_address>
             <span tal:replace="office_city" /><tal:block tal:condition="office_state">, </tal:block>
             <span tal:content="office_state" />
             <span tal:content="office_zip_code" />
         </p>
     </div>
 
-    <div 
+    <div
         tal:define="email context/email|nothing"
         tal:condition="email">
         <h3>Email</h3>
@@ -45,14 +48,14 @@
         </p>
     </div>
 
-    <div 
+    <div
         tal:define="office_phone context/phone_number|nothing"
         tal:condition="office_phone">
         <h3>Phone</h3>
         <p tal:content="office_phone" />
     </div>
 
-    <div 
+    <div
         tal:define="fax_number context/fax_number|nothing"
         tal:condition="fax_number">
         <h3>Fax</h3>
@@ -61,10 +64,10 @@
 
     <h2>Professional Information</h2>
 
-    <tal:areas 
+    <tal:areas
         tal:define="items context/areas_expertise|nothing"
         tal:condition="items">
-        
+
         <h3>Areas of Expertise</h3>
         <ul>
             <li tal:repeat="item items"
@@ -73,10 +76,10 @@
 
     </tal:areas>
 
-    <tal:education 
+    <tal:education
         tal:define="items context/education|nothing"
         tal:condition="items">
-        
+
         <h3>Education</h3>
         <ul>
             <li tal:repeat="item items"
@@ -85,7 +88,7 @@
 
     </tal:education>
 
-    <div class="biography" 
+    <div class="biography"
         tal:define="bio context/bio|nothing"
         tal:condition="bio"
         tal:content="structure bio" />
@@ -106,7 +109,7 @@
     <tal:products
         tal:define="folderContents view/getPersonProducts"
         tal:condition="folderContents">
-        
+
         <metal:listing use-macro="context/@@product_listing/macros/product-listing" />
 
     </tal:products>
@@ -115,7 +118,7 @@
         tal:define="items context/getMetadata|nothing"
         tal:condition="items">
         <h2>Metadata</h2>
-        
+
         <tal:items
             tal:repeat="i items">
                 <h3 tal:content="i/title" />
@@ -124,7 +127,7 @@
                 </ul>
         </tal:items>
     </tal:metadata>
-            
+
 </metal:main>
 
 </body>
