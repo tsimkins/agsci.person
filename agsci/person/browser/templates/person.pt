@@ -126,14 +126,6 @@
             </ul>
         </tal:social_media>
 
-        <tal:products
-            tal:define="folderContents view/getPersonProducts"
-            tal:condition="folderContents">
-
-            <metal:listing use-macro="context/@@product_listing/macros/product-listing" />
-
-        </tal:products>
-
         <tal:metadata
             tal:define="items context/getMetadata|nothing"
             tal:condition="items">
@@ -149,6 +141,14 @@
         </tal:metadata>
 
     </tal:active>
+
+    <tal:products
+        tal:define="folderContents view/getPersonProducts"
+        tal:condition="folderContents">
+
+        <metal:listing use-macro="context/@@product_listing/macros/product-listing" />
+
+    </tal:products>
 
 </metal:main>
 
