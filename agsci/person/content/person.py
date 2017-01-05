@@ -205,16 +205,36 @@ class Person(Item):
 
     def getProducts(self):
         portal_catalog = getToolByName(self, "portal_catalog")
-        return portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+
+        # Find the brains for the products where this person is listed as the owner or author
+
+        as_owner = portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
                                                   'Owners' : self.username,
-                                                  'sort_on' : 'sortable_title',
                                                 })
+
+        as_author = portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                                                  'Authors' : self.username,
+                                                })
+
+        # Put the UIDs from those brains into the `uids` list
+        uids = []
+
+        uids.extend([x.UID for x in as_owner])
+        uids.extend([x.UID for x in as_author])
+
+
+        # Return the brains for those products.
+        return portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                                                'UID' : uids,
+                                                'sort_on' : 'sortable_title',
+                                            })
+
     def ContentIssues(self):
         issues = [0,0,0,0]
-        
+
         for p in self.getProducts():
             content_issues = p.ContentIssues
-            
+
             if content_issues == (0,0,0):
                 issues[3] = issues[3] + 1
 
@@ -225,7 +245,7 @@ class Person(Item):
                         break
 
         return tuple(issues)
-    
+
 
 
 class ITitleFromPersonUserId(INameFromTitle):
