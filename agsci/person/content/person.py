@@ -12,7 +12,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
-from agsci.atlas.content.behaviors import IAtlasMetadata, IAtlasContact
+from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasCountyFields
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
 from .. import personMessageFactory as _
@@ -29,6 +29,8 @@ social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_pl
 
 @provider(IFormFieldProvider)
 class IPerson(IMember, IAtlasContact, ILeadImageBase):
+
+    __doc__ = "Person Information"
 
     # Fieldsets
 
@@ -149,6 +151,9 @@ class PersonDefaultRoles(DxUserObject):
 
 class Person(Item):
 
+    exclude_schemas = [IAtlasLocation, IAtlasContact, IAtlasCountyFields]
+    additional_schemas = [IPerson,]
+
     @property
     def title(self):
 
@@ -168,40 +173,6 @@ class Person(Item):
     def getSortableName(self):
         fields = ['last_name', 'first_name', 'middle_name', ]
         return tuple([getattr(self, x, '') for x in fields])
-
-    def getFieldTitlesAndValues(self, fields, schemas=[]):
-
-        data = []
-
-        for field_name in fields:
-
-            field_schema = None
-
-            for i in schemas:
-                try:
-                    field_schema = i.getDescriptionFor(field_name)
-                except KeyError:
-                    continue
-                else:
-                    break
-
-            field_value = getattr(self, field_name, None)
-
-            if field_schema and field_value:
-                data.append({'title' : field_schema.title, 'value' : field_value})
-
-        return data
-
-    def getSocialMedia(self):
-
-        return self.getFieldTitlesAndValues(social_media_fields, [IPerson,])
-
-
-    def getMetadata(self):
-
-        fields = ['classifications', 'county', 'atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
-
-        return self.getFieldTitlesAndValues(fields, [IPerson, IAtlasMetadata, IAtlasContact])
 
     def getProducts(self):
         portal_catalog = getToolByName(self, "portal_catalog")
