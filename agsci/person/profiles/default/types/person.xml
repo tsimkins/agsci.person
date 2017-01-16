@@ -22,6 +22,7 @@
  <property name="klass">agsci.person.content.person.Person</property>
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="dexterity.membrane.behavior.user.IMembraneUser" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
