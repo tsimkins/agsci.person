@@ -12,7 +12,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
-from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasCountyFields
+from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasCountyFields, IAtlasSocialMedia
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
 from .. import personMessageFactory as _
@@ -25,10 +25,8 @@ contact_fields = ['email', 'venue', 'street_address', 'city', 'state', 'zip_code
 
 professional_fields = ['classifications', 'job_titles', 'bio', 'education', 'areas_expertise', 'county' ]
 
-social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url', ]
-
 @provider(IFormFieldProvider)
-class IPerson(IMember, IAtlasContact, ILeadImageBase):
+class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
 
     __doc__ = "Person Information"
 
@@ -44,12 +42,6 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase):
         'professional',
         label=_(u'Professional Information'),
         fields=professional_fields,
-    )
-
-    model.fieldset(
-        'social-media',
-        label=_(u'Social Media'),
-        fields=social_media_fields,
     )
 
     form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption')
@@ -105,26 +97,6 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase):
     areas_expertise = schema.List(
         title=_(u"Areas of Expertise"),
         value_type=schema.TextLine(required=True),
-        required=False,
-    )
-
-    twitter_url = schema.TextLine(
-        title=_(u"Twitter URL"),
-        required=False,
-    )
-
-    facebook_url = schema.TextLine(
-        title=_(u"Facebook URL"),
-        required=False,
-    )
-
-    linkedin_url = schema.TextLine(
-        title=_(u"LinkedIn URL"),
-        required=False,
-    )
-
-    google_plus_url = schema.TextLine(
-        title=_(u"Google+ URL"),
         required=False,
     )
 
