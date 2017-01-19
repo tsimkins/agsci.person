@@ -124,7 +124,6 @@ class PersonDefaultRoles(DxUserObject):
 class Person(Item):
 
     exclude_schemas = [IAtlasLocation, IAtlasContact, IAtlasCountyFields]
-    additional_schemas = [IPerson,]
 
     @property
     def title(self):
