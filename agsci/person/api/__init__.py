@@ -21,6 +21,11 @@ class PersonView(BaseView):
 
         sd = self.getSchemaData(schemas=[IMember, IPerson], fields=['email'])
 
+        # Remove leadimage field from person data. It's already included from
+        # the main API
+        if sd.has_key('leadimage'):
+            del sd['leadimage']
+
         # Add a 'job_title' field with the primary job title
         job_titles = sd.get('person_job_titles', [])
 
