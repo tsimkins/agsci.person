@@ -12,7 +12,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
-from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasCountyFields, IAtlasSocialMedia
+from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasSocialMedia
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
 from .. import personMessageFactory as _
@@ -123,7 +123,7 @@ class PersonDefaultRoles(DxUserObject):
 
 class Person(Item):
 
-    exclude_schemas = [IAtlasLocation, IAtlasContact, IAtlasCountyFields]
+    exclude_schemas = [IAtlasLocation, IAtlasContact]
 
     @property
     def title(self):
