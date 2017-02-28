@@ -16,7 +16,7 @@ class DirectoryView(BaseContainerView):
 
 class PersonView(BaseView):
 
-    def getData(self):
+    def getData(self, **kwargs):
         data = super(PersonView, self).getData()
 
         sd = self.getSchemaData(schemas=[IMember, IPerson], fields=['email'])
