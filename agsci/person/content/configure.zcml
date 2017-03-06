@@ -26,10 +26,4 @@
         component=".vocabulary.person.ClassificationsVocabularyFactory"
     />
 
-    <utility
-        name="agsci.person.states"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.person.StatesVocabularyFactory"
-    />
-
 </configure>

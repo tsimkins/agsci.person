@@ -1,10 +1,8 @@
-from agsci.atlas.content.vocabulary import StaticVocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implements
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from ..directory import IDirectory
-
 
 # Directory classifications for people
 class ClassificationsVocabulary(object):
@@ -29,14 +27,4 @@ class ClassificationsVocabulary(object):
             [SimpleTerm(x ,title=x) for x in classifications]
         )
 
-
 ClassificationsVocabularyFactory = ClassificationsVocabulary()
-
-
-# Directory States for people
-class StatesVocabulary(StaticVocabulary):
-
-    items = ['PA', ]
-
-
-StatesVocabularyFactory = StatesVocabulary()
