@@ -21,7 +21,11 @@ from .. import personMessageFactory as _
 
 # Set up fields for re-use in API output
 
-contact_fields = ['email', 'venue', 'street_address', 'city', 'state', 'zip_code', 'phone_number', 'fax_number', 'primary_profile_url']
+contact_fields = [
+                    'email', 'venue', 'street_address', 'city', 'state',
+                    'zip_code', 'latitude', 'longitude', 'phone_number',
+                    'fax_number', 'primary_profile_url'
+                ]
 
 professional_fields = ['classifications', 'job_titles', 'bio', 'education', 'areas_expertise', 'county' ]
 
