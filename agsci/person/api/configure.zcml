@@ -11,7 +11,7 @@
         for="..content.directory.IDirectory"
         name="api"
         class=".DirectoryView"
-        permission="zope2.View"
+        permission="zope.Public"
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
@@ -21,7 +21,7 @@
         for="..content.person.IPerson"
         name="api"
         class=".PersonView"
-        permission="zope2.View"
+        permission="zope.Public"
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
