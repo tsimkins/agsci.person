@@ -12,6 +12,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
+from agsci.atlas.permissions import *
 from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasSocialMedia
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
@@ -51,6 +52,10 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
     form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption')
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
+
+    # Only allow superusers to write to these fields
+    form.write_permission(leadimage=ATLAS_SUPERUSER)
+    form.write_permission(username=ATLAS_SUPERUSER)
 
     # Fields
 
