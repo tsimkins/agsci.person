@@ -23,7 +23,7 @@
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IAtlasPersonCategoryMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasPersonEPASMetadata" />
   <element value="dexterity.membrane.behavior.user.IMembraneUser" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
