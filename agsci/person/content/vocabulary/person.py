@@ -11,7 +11,7 @@ class ClassificationsVocabulary(object):
     
     def __call__(self, context):
 
-        classifications = ['Faculty', 'Staff']
+        classifications = ['Faculty', 'Educator', 'Staff']
 
         for o in context.aq_chain:
     
