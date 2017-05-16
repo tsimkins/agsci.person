@@ -27,7 +27,8 @@ contact_fields = [
                     'fax_number', 'primary_profile_url'
                 ]
 
-professional_fields = ['classifications', 'job_titles', 'bio', 'education', 'areas_expertise', 'county' ]
+professional_fields = ['classifications', 'job_titles', 'hr_job_title', 'bio',
+                       'education', 'areas_expertise', 'county' ]
 
 @provider(IFormFieldProvider)
 class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
@@ -48,7 +49,7 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
         fields=professional_fields,
     )
 
-    form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption')
+    form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption', 'hr_job_title')
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
 
@@ -94,6 +95,11 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
         title=_(u"Job Titles"),
         value_type=schema.TextLine(required=True),
         required=True,
+    )
+
+    hr_job_title = schema.TextLine(
+        title=_(u"HR Job Title"),
+        required=False,
     )
 
     education = schema.List(
