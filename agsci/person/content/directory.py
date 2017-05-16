@@ -1,6 +1,5 @@
 from .. import personMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-from agsci.atlas.utilities import toISO
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema

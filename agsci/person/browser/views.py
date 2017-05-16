@@ -1,7 +1,7 @@
-from Products.Five import BrowserView
-from zope.interface import implements, Interface
-from agsci.atlas.browser.views import AtlasStructureView
+from zope.interface import Interface
 from DateTime import DateTime
+
+from agsci.atlas.browser.views import AtlasStructureView
 
 class IPersonView(Interface):
     pass

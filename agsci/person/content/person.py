@@ -1,12 +1,11 @@
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import IMembraneUserRoles
 from dexterity.membrane.behavior.user import DxUserObject
-from dexterity.membrane.behavior.user import IMembraneUser
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.dexterity.content import Item, Container
+from plone.dexterity.content import Item
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
