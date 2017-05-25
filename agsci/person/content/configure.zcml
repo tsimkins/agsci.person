@@ -6,8 +6,8 @@
     i18n_domain="agsci.person">
 
     <!-- Adapters -->
-    
-    <adapter 
+
+    <adapter
         for=".person.IPerson"
         provides=".person.ITitleFromPersonUserId"
         factory=".person.TitleFromPersonUserId"
@@ -23,7 +23,7 @@
     <utility
         name="agsci.person.classifications"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.person.ClassificationsVocabularyFactory"
+        component=".vocabulary.ClassificationsVocabularyFactory"
     />
 
 </configure>

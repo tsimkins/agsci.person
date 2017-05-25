@@ -8,12 +8,7 @@ from zope import schema
 
 class IDirectory(model.Schema):
 
-    classifications = schema.List(
-        title=_(u"Classifications"),
-        description=_(u"Classifications (e.g. Faculty, Staff, etc.) for people in the directory."),
-        value_type=schema.TextLine(required=True),
-        required=False,
-    )
+    pass
 
 class Directory(Container):
 
