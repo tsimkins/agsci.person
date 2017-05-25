@@ -11,8 +11,10 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implements, provider, implementer
 
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.permissions import *
-from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, IAtlasSocialMedia
+from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, \
+                                          IAtlasSocialMediaBase, social_media_fields
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
 from .. import personMessageFactory as _
@@ -31,7 +33,7 @@ professional_fields = ['classifications', 'job_titles', 'hr_job_title', 'bio',
                        'education', 'areas_expertise', 'county' ]
 
 @provider(IFormFieldProvider)
-class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
+class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
 
     __doc__ = "Person Information"
 
@@ -49,13 +51,23 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMedia):
         fields=professional_fields,
     )
 
+    model.fieldset(
+        'social-media',
+        label=_(u'Social Media'),
+        fields=social_media_fields,
+    )
+
     form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption', 'hr_job_title')
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
 
-    # Only allow superusers to write to these fields
-    form.write_permission(leadimage=ATLAS_SUPERUSER)
-    form.write_permission(username=ATLAS_SUPERUSER)
+    # Only allow Directory Editors to write to these fields
+    form.write_permission(leadimage=ATLAS_DIRECTORY)
+    form.write_permission(username=ATLAS_DIRECTORY)
+    form.write_permission(classifications=ATLAS_DIRECTORY)
+    form.write_permission(primary_profile_url=ATLAS_DIRECTORY)
+    form.write_permission(latitude=ATLAS_DIRECTORY)
+    form.write_permission(longitude=ATLAS_DIRECTORY)
 
     # Fields
 
@@ -182,6 +194,7 @@ class Person(Item):
         # Return the brains for those products.
         return portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
                                                 'UID' : uids,
+                                                'review_state' : ACTIVE_REVIEW_STATES,
                                                 'sort_on' : 'sortable_title',
                                             })
 
