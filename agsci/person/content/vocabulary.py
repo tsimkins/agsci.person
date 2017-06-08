@@ -13,6 +13,8 @@ class ClassificationsVocabulary(object):
             'Faculty',
             'Educator',
             'Staff',
+            'Director',
+            'Associate Director',
             'Assistant Director of Programs',
             'Client Relations Manager',
             'Business Operations Manager',
