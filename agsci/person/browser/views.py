@@ -2,6 +2,11 @@ from zope.interface import Interface
 from DateTime import DateTime
 
 from agsci.atlas.browser.views import AtlasStructureView
+from agsci.api.api import BaseView
+
+from ..content import LDAPInfo
+
+import json
 
 class IPersonView(Interface):
     pass
@@ -23,6 +28,15 @@ class PersonView(AtlasStructureView):
             return (self.context.expires() < now)
 
         return False
+
+
+class PersonLDAPView(BaseView):
+    caching_enabled = False
+    default_data_format = 'json'
+
+    @property
+    def data(self, **kwargs):
+        return LDAPInfo(self.context).lookup()
 
 
 class DirectoryView(AtlasStructureView):
