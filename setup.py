@@ -27,6 +27,7 @@ setup(name='agsci.person',
     install_requires=[
       'setuptools',
       'dexterity.membrane',
+      'python-ldap',
       # -*- Extra requirements: -*-
       ],
     entry_points="""

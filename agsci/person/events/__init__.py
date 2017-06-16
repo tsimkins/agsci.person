@@ -1,7 +1,15 @@
 # Update person when person edited
 from agsci.atlas.events import assignOwnerPermission
 
+from ..content import LDAPInfo
+
 def onPersonEdit(context, event):
+
+    setPersonUsername(context, event)
+
+    setPersonLDAPInfo(context, event)
+
+def setPersonUsername(context, event):
 
     username = getattr(context, 'username', '')
 
@@ -18,3 +26,13 @@ def onPersonEdit(context, event):
 
         # Assign the person's username as the owner
         assignOwnerPermission(context, event)
+
+        return username
+
+def setPersonLDAPInfo(context, event):
+
+    data = LDAPInfo(context).lookup()
+
+    if data:
+        setattr(context, 'hr_job_title', data.get('title', ''))
+        context.reindexObject()
