@@ -18,7 +18,7 @@
         name="ldap"
         for="..content.person.IPerson"
         class=".views.PersonLDAPView"
-        permission="zope2.View"
+        permission="zope.Public"
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
