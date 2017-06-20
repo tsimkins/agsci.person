@@ -29,8 +29,11 @@ contact_fields = [
                     'fax_number', 'primary_profile_url'
                 ]
 
-professional_fields = ['classifications', 'job_titles', 'hr_job_title', 'bio',
-                       'education', 'areas_expertise', 'county' ]
+professional_fields = [
+    'classifications', 'job_titles', 'hr_job_title', 'hr_admin_area',
+    'hr_department', 'all_emails', 'sso_principal_name', 'bio',
+    'education', 'areas_expertise', 'county',
+]
 
 @provider(IFormFieldProvider)
 class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
@@ -57,7 +60,9 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         fields=social_media_fields,
     )
 
-    form.omitted('homepage', 'map_link', 'leadimage_full_width', 'leadimage_caption', 'hr_job_title')
+    form.omitted('homepage', 'map_link', 'leadimage_full_width',
+                 'leadimage_caption', 'hr_job_title', 'hr_admin_area',
+                 'hr_department', 'all_emails', 'sso_principal_name')
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
 
@@ -111,6 +116,27 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
 
     hr_job_title = schema.TextLine(
         title=_(u"HR Job Title"),
+        required=False,
+    )
+
+    hr_admin_area = schema.TextLine(
+        title=_(u"HR Admin Area"),
+        required=False,
+    )
+
+    hr_department = schema.TextLine(
+        title=_(u"HR Department"),
+        required=False,
+    )
+
+    all_emails = schema.List(
+        title=_(u"All Penn State Email Addresses"),
+        value_type=schema.TextLine(required=True),
+        required=False,
+    )
+
+    sso_principal_name = schema.TextLine(
+        title=_(u"SSO Principal Name"),
         required=False,
     )
 

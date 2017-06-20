@@ -34,5 +34,24 @@ def setPersonLDAPInfo(context, event):
     data = LDAPInfo(context).lookup()
 
     if data:
-        setattr(context, 'hr_job_title', data.get('title', ''))
+
+        fields = [
+            ('hr_job_title', 'title'),
+            ('hr_admin_area', 'psAdminArea'),
+            ('hr_department', 'psDepartment'),
+            ('all_emails', 'psMailID'),
+            ('sso_principal_name', 'eduPersonPrincipalName'),
+        ]
+
+        for (plone_field_name, ldap_field_name) in fields:
+
+            field_value = data.get(ldap_field_name, '')
+
+            # Special case for alternate_emails, which need to be a list
+            if plone_field_name in ['all_emails'] and field_value:
+                if not isinstance(field_value, (list, tuple)):
+                    field_value = [field_value,]
+
+            setattr(context, plone_field_name, field_value)
+
         context.reindexObject()
