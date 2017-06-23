@@ -10,3 +10,16 @@ def PersonSortableTitle(context):
     return tuple(t)
 
 provideAdapter(PersonSortableTitle, name='sortable_title')
+
+
+# Indexers for person's classifications
+@indexer(IPerson)
+def PersonClassifications(context):
+    c = getattr(context, 'classifications', [])
+
+    if c:
+        return c
+
+    return []
+
+provideAdapter(PersonClassifications, name='Classifications')
