@@ -129,7 +129,7 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         required=False,
     )
 
-    all_emails = schema.List(
+    all_emails = schema.Tuple(
         title=_(u"All Penn State Email Addresses"),
         value_type=schema.TextLine(required=True),
         required=False,
