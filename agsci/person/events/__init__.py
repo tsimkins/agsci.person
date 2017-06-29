@@ -33,6 +33,8 @@ def setPersonLDAPInfo(context, event):
 
     data = LDAPInfo(context).lookup()
 
+    updated = False
+
     if data:
 
         fields = [
@@ -50,8 +52,15 @@ def setPersonLDAPInfo(context, event):
             # Special case for alternate_emails, which need to be a list
             if plone_field_name in ['all_emails'] and field_value:
                 if not isinstance(field_value, (list, tuple)):
-                    field_value = [field_value,]
+                    field_value = (field_value,)
 
-            setattr(context, plone_field_name, field_value)
+            current_value = getattr(context, plone_field_name, None)
 
-        context.reindexObject()
+            if current_value != field_value:
+                setattr(context, plone_field_name, field_value)
+                updated = True
+
+        if updated:
+            context.reindexObject()
+
+    return updated
