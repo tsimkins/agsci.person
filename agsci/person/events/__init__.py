@@ -49,10 +49,12 @@ def setPersonLDAPInfo(context, event):
 
             field_value = data.get(ldap_field_name, '')
 
-            # Special case for alternate_emails, which need to be a list
+            # Special case for alternate_emails, which need to be a tuple
             if plone_field_name in ['all_emails'] and field_value:
                 if not isinstance(field_value, (list, tuple)):
                     field_value = (field_value,)
+                elif isinstance(field_value, list):
+                    field_value = tuple(field_value)
 
             current_value = getattr(context, plone_field_name, None)
 
