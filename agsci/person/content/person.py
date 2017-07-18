@@ -24,10 +24,10 @@ from .. import personMessageFactory as _
 # Set up fields for re-use in API output
 
 contact_fields = [
-                    'email', 'venue', 'street_address', 'city', 'state',
-                    'zip_code', 'latitude', 'longitude', 'phone_number',
-                    'fax_number', 'primary_profile_url'
-                ]
+    'email', 'venue', 'street_address', 'city', 'state',
+    'zip_code', 'latitude', 'longitude', 'phone_number',
+    'fax_number', 'primary_profile_url', 'summary_report_frequency',
+]
 
 professional_fields = [
     'classifications', 'job_titles', 'hr_job_title', 'hr_admin_area',
@@ -156,6 +156,14 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         title=_(u"Primary Profile URL"),
         description=_(u"URL of primary profile (if not Extension site)"),
         required=False,
+    )
+
+    summary_report_frequency = schema.Choice(
+        title=_(u"Summary Report Frequency"),
+        description=_(u"Frequency that reports will be emailed."),
+        values=[u'Weekly', u'Daily'],
+        default=u'Weekly',
+        required=True,
     )
 
 # Configuring default roles with Dexterity
