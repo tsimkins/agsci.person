@@ -19,6 +19,7 @@ class ClassificationsVocabulary(object):
             'Client Relations Manager',
             'Business Operations Manager',
             'Leadership Team',
+            'Volunteer',
         ]
 
         return SimpleVocabulary(

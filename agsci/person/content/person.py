@@ -176,7 +176,25 @@ DEFAULT_ROLES = ['Member']
 class PersonDefaultRoles(DxUserObject):
 
     def getRolesForPrincipal(self, principal, request=None):
-        return DEFAULT_ROLES
+
+        # Check if person is active
+        wftool = getToolByName(self.context, 'portal_workflow')
+
+        # Get workflow state
+        review_state = wftool.getInfoFor(self.context, 'review_state')
+
+        # Validate that person is published
+        if review_state in ['published',]:
+
+            # Get classifications for person
+            classifications = getattr(self.context, 'classifications', [])
+
+            # If the person has classification, but isn't a volunteer, they're a Member
+            if classifications and 'Volunteer' not in classifications:
+                return DEFAULT_ROLES
+
+        # Default to no default roles
+        return []
 
 # Calculate "Title" as person name
 # Based on http://davidjb.com/blog/2010/04/plone-and-dexterity-working-with-computed-fields/
