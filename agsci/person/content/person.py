@@ -166,6 +166,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         required=True,
     )
 
+    county = schema.List(
+        title=_(u"County/Location"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.PersonCounty"),
+        required=False
+    )
+
 # Configuring default roles with Dexterity
 # http://docs.plone.org/develop/plone/members/membrane.html#id11
 
