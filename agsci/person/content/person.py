@@ -161,8 +161,8 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
     summary_report_frequency = schema.Choice(
         title=_(u"Summary Report Frequency"),
         description=_(u"Frequency that reports will be emailed."),
-        values=[u'Weekly', u'Daily'],
-        default=u'Weekly',
+        values=[u'No Emails', u'Weekly', u'Daily'],
+        default=u'No Emails',
         required=True,
     )
 
