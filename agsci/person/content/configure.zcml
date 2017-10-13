@@ -26,4 +26,16 @@
         component=".vocabulary.ClassificationsVocabularyFactory"
     />
 
+    <utility
+        name="agsci.person.project_program_team"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.ProjectProgramTeamVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.person.home_budget"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.HomeBudgetVocabularyFactory"
+    />
+
 </configure>

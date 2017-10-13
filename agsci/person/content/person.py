@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import IMembraneUserRoles
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from dexterity.membrane.behavior.user import DxUserObject
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
@@ -9,7 +10,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import implements, provider, implementer
+from zope.interface import implements, provider, implementer, Interface
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.permissions import *
@@ -18,6 +19,22 @@ from agsci.atlas.content.behaviors import IAtlasContact, IAtlasLocation, \
 from agsci.leadimage.content.behaviors import ILeadImageBase
 
 from .. import personMessageFactory as _
+
+# Project/Program Team/Percent Row Schema
+
+class IProjectProgramTeamRowSchema(Interface):
+
+    project_program_team  = schema.Choice(
+        title=_(u"Project / Program Team"),
+        vocabulary="agsci.person.project_program_team",
+        required=False,
+    )
+
+    percent_allocated = schema.Decimal(
+        title=_(u"Percent Allocated"),
+        description=_(u""),
+        required=False,
+    )
 
 # Person
 
@@ -73,6 +90,20 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
     form.write_permission(primary_profile_url=ATLAS_DIRECTORY)
     form.write_permission(latitude=ATLAS_DIRECTORY)
     form.write_permission(longitude=ATLAS_DIRECTORY)
+
+    # Project / Program Team / Percent
+    form.widget(project_program_team_percent=DataGridFieldFactory)
+    form.write_permission(
+        project_program_team_percent=ATLAS_SUPERUSER,
+        home_budget=ATLAS_SUPERUSER,
+    )
+
+    # Internal Fields
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['project_program_team_percent', 'home_budget'],
+    )
 
     # Fields
 
@@ -172,6 +203,20 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         value_type=schema.Choice(vocabulary="agsci.atlas.PersonCounty"),
         required=False
     )
+
+    home_budget  = schema.Choice(
+        title=_(u"Home Budget"),
+        vocabulary="agsci.person.home_budget",
+        required=False,
+    )
+
+    project_program_team_percent = schema.List(
+        title=_(u"Project/Program Team and Percent"),
+        description=_(u""),
+        value_type=DictRow(title=u"Program Team/Percent", schema=IProjectProgramTeamRowSchema),
+        required=False
+    )
+
 
 # Configuring default roles with Dexterity
 # http://docs.plone.org/develop/plone/members/membrane.html#id11
