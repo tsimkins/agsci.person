@@ -79,7 +79,9 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
 
     form.omitted('homepage', 'map_link', 'leadimage_full_width',
                  'leadimage_caption', 'hr_job_title', 'hr_admin_area',
-                 'hr_department', 'all_emails', 'sso_principal_name')
+                 'hr_department', 'all_emails', 'sso_principal_name',
+                 'project_program_team_percent', 'home_budget')
+
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
 
