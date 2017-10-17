@@ -44,6 +44,7 @@ contact_fields = [
     'email', 'venue', 'street_address', 'city', 'state',
     'zip_code', 'latitude', 'longitude', 'phone_number',
     'fax_number', 'primary_profile_url', 'summary_report_frequency',
+    'summary_report_blank',
 ]
 
 professional_fields = [
@@ -197,6 +198,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         values=[u'No Emails', u'Weekly', u'Daily'],
         default=u'No Emails',
         required=True,
+    )
+
+    summary_report_blank = schema.Bool(
+        title=_(u"Send empty Summary Report Email?"),
+        description=_(u"If this box is checked, emails will be sent even though no products require action."),
+        required=False,
+        default=False,
     )
 
     county = schema.List(
