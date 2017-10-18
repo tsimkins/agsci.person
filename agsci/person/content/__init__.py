@@ -1,4 +1,9 @@
+from Products.CMFPlone.utils import safe_unicode
+
 import ldap
+import re
+
+from agsci.atlas.content.sync import SyncContentImporter
 
 class LDAPInfo(object):
 
@@ -61,3 +66,97 @@ class LDAPInfo(object):
                                     data[k] = v[0]
 
                         return data
+
+class LDAPPersonCreator(LDAPInfo):
+
+    def __init__(self, psu_id=None):
+        self.psu_id = psu_id
+
+    @property
+    def username(self):
+        return self.psu_id
+
+    @property
+    def content_importer(self):
+
+        ldap_data = self.lookup()
+
+        if not ldap_data:
+            raise ValueError(u"%s not found in LDAP." % self.username)
+
+        # Names
+        givenName = ldap_data.get('givenName', '').title()
+        last_name = ldap_data.get('sn', '').title()
+
+        if ' ' in givenName:
+            first_name = " ".join(givenName.split()[0:-1])
+            middle_name = givenName.split()[-1]
+        else:
+            first_name = givenName
+            middle_name = ''
+
+        # Phone
+        phone_number = ldap_data.get('psOfficePhone', '')
+
+        # Email
+        email = ldap_data.get('mail', '')
+
+        # Office Address
+
+        # Blank city/state/zip
+        city = state = zip_code = ''
+
+        # Get street address from LDAP data
+        street_address = ldap_data.get('postalAddress', '').title()
+
+        # Clean spurious UP in street address
+        _up = '$UNIVERSITY PARK$'.title()
+        street_address = street_address.replace(_up, '$')
+
+        # Split on $
+        street_address = street_address.split('$')
+
+        # Try to extract city/state/zip
+        if len(street_address) > 1:
+
+            # Check last line for city, state ZIP
+            _csz_re = re.compile("^(.*),\s*(..)\s+([\d\-]+)\s*")
+
+            _csz = _csz_re.match(street_address[-1])
+
+            if _csz:
+                (city, state, zip_code) = _csz.groups()
+                street_address = street_address[:-1]
+
+        # Join with <cr>
+        street_address = "\n".join(street_address)
+
+        # Strip
+        street_address = street_address.strip()
+
+        # Job Titles
+        job_titles = []
+
+        job_title = ldap_data.get('title', '').title()
+
+        if job_title:
+            job_titles.append(safe_unicode(job_title))
+
+        # Compile in data dict and feed to content importer object
+        data = {
+            'username' : safe_unicode(self.username),
+            'get_id' : safe_unicode(self.username),
+            'first_name' : safe_unicode(first_name),
+            'middle_name' : safe_unicode(middle_name),
+            'last_name' : safe_unicode(last_name),
+            'phone_number' : safe_unicode(phone_number),
+            'street_address' : safe_unicode(street_address),
+            'email' : safe_unicode(email),
+            'city' : safe_unicode(city),
+            'state' : safe_unicode(state),
+            'zip_code' : safe_unicode(zip_code),
+            'job_titles' : job_titles,
+            'product_type' : u'Person',
+        }
+
+        return SyncContentImporter(data)
