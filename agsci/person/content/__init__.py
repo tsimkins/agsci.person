@@ -127,6 +127,7 @@ class LDAPPersonCreator(LDAPInfo):
             if _csz:
                 (city, state, zip_code) = _csz.groups()
                 street_address = street_address[:-1]
+                state = state.upper()
 
         # Join with <cr>
         street_address = "\n".join(street_address)
