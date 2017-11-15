@@ -196,7 +196,7 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         title=_(u"Summary Report Frequency"),
         description=_(u"Frequency that reports will be emailed."),
         values=[u'No Emails', u'Weekly', u'Daily'],
-        default=u'No Emails',
+        default=u'Daily',
         required=True,
     )
 
