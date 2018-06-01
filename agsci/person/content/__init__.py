@@ -98,7 +98,7 @@ class LDAPInfo(object):
     def get_address(self, ldap_data):
 
         if self.is_fps(ldap_data):
-            return ''
+            return ('', '', '', '')
 
         # Office Address
 
