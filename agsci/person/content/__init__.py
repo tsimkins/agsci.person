@@ -1,4 +1,5 @@
 from Products.CMFPlone.utils import safe_unicode
+from urlparse import urlparse
 
 import ldap
 import re
@@ -65,9 +66,18 @@ class LDAPInfo(object):
                                 if len(v) == 1:
                                     data[k] = v[0]
 
+                        data['ldap_host'] = self.ldap_host(host)
+
                         return data
 
+    def is_fps(self, _):
+        return _.get('ldap_host', '') == 'fps.psu.edu'
+
     def get_phone_number(self, ldap_data):
+
+        if self.is_fps(ldap_data):
+            return ''
+
         phone_number = ldap_data.get('psOfficePhone', '')
 
         if not phone_number:
@@ -85,6 +95,9 @@ class LDAPInfo(object):
         return phone_number
 
     def get_address(self, ldap_data):
+
+        if self.is_fps(ldap_data):
+            return ''
 
         # Office Address
 
@@ -121,6 +134,9 @@ class LDAPInfo(object):
         street_address = street_address.strip()
 
         return (street_address, city, state, zip_code)
+
+    def ldap_host(self, _):
+        return urlparse(_).netloc
 
 class LDAPPersonCreator(LDAPInfo):
 
