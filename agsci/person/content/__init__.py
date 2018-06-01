@@ -67,39 +67,24 @@ class LDAPInfo(object):
 
                         return data
 
-class LDAPPersonCreator(LDAPInfo):
-
-    def __init__(self, psu_id=None):
-        self.psu_id = psu_id
-
-    @property
-    def username(self):
-        return self.psu_id
-
-    @property
-    def content_importer(self):
-
-        ldap_data = self.lookup()
-
-        if not ldap_data:
-            raise ValueError(u"%s not found in LDAP." % self.username)
-
-        # Names
-        givenName = ldap_data.get('givenName', '').title()
-        last_name = ldap_data.get('sn', '').title()
-
-        if ' ' in givenName:
-            first_name = " ".join(givenName.split()[0:-1])
-            middle_name = givenName.split()[-1]
-        else:
-            first_name = givenName
-            middle_name = ''
-
-        # Phone
+    def get_phone_number(self, ldap_data):
         phone_number = ldap_data.get('psOfficePhone', '')
 
-        # Email
-        email = ldap_data.get('mail', '')
+        if not phone_number:
+            _ = ldap_data.get('telephoneNumber', '')
+
+            if _:
+
+                _re = re.compile('^\s*\+1\s*(\d{3})[\s\-\.]*(\d{3})[\s\-\.]*(\d{4})\s*$')
+
+                m = _re.match(_)
+
+                if m:
+                    phone_number = "-".join(m.groups())
+
+        return phone_number
+
+    def get_address(self, ldap_data):
 
         # Office Address
 
@@ -134,6 +119,45 @@ class LDAPPersonCreator(LDAPInfo):
 
         # Strip
         street_address = street_address.strip()
+
+        return (street_address, city, state, zip_code)
+
+class LDAPPersonCreator(LDAPInfo):
+
+    def __init__(self, psu_id=None):
+        self.psu_id = psu_id
+
+    @property
+    def username(self):
+        return self.psu_id
+
+    @property
+    def content_importer(self):
+
+        ldap_data = self.lookup()
+
+        if not ldap_data:
+            raise ValueError(u"%s not found in LDAP." % self.username)
+
+        # Names
+        givenName = ldap_data.get('givenName', '').title()
+        last_name = ldap_data.get('sn', '').title()
+
+        if ' ' in givenName:
+            first_name = " ".join(givenName.split()[0:-1])
+            middle_name = givenName.split()[-1]
+        else:
+            first_name = givenName
+            middle_name = ''
+
+        # Phone
+        phone_number = self.get_phone_number(ldap_data)
+
+        # Email
+        email = ldap_data.get('mail', '')
+
+        # Office Address
+        (street_address, city, state, zip_code) = self.get_address(ldap_data)
 
         # Job Titles
         job_titles = []
