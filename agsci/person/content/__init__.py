@@ -69,6 +69,7 @@ class LDAPInfo(object):
                         data['ldap_host'] = self.ldap_host(host)
 
                         return data
+        return {}
 
     def is_fps(self, _):
         return _.get('ldap_host', '') == 'fps.psu.edu'
