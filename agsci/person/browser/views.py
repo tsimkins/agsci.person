@@ -3,7 +3,7 @@ from zope.component.hooks import getSite
 from zope.interface import Interface
 
 from agsci.atlas.browser.views import AtlasStructureView
-from agsci.atlas.browser.views.sync.person import SyncPersonView
+from agsci.atlas.browser.views.sync.fsd_person import SyncFSDPersonView
 from agsci.api.api import BaseView
 
 from ..content import LDAPInfo, LDAPPersonCreator
@@ -54,7 +54,7 @@ class DirectoryView(AtlasStructureView):
     def getPeople(self, contentFilter={}):
         return self.portal_catalog.searchResults({'Type' : 'Person', 'sort_on' : 'sortable_title'})
 
-class ImportPersonView(SyncPersonView):
+class ImportPersonView(SyncFSDPersonView):
 
     @property
     def username(self):
