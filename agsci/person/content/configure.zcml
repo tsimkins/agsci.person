@@ -38,4 +38,16 @@
         component=".vocabulary.HomeBudgetVocabularyFactory"
     />
 
+    <utility
+        name="agsci.person.crm"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.CRMVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.person.bom"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.BOMVocabularyFactory"
+    />
+
 </configure>
