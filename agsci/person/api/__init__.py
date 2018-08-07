@@ -4,6 +4,8 @@ from ..content.person import IPerson
 
 class DirectoryView(BaseContainerView):
 
+    expensive = False
+
     # Explicitly only list people
     def getContents(self):
 
