@@ -40,6 +40,14 @@ class PersonLDAPView(BaseView):
     def data(self, **kwargs):
         return LDAPInfo(self.context).lookup()
 
+class DirectoryLDAPView(BaseView):
+    caching_enabled = False
+    default_data_format = 'json'
+
+    @property
+    def data(self, **kwargs):
+        username = self.request.form.get('username', None)
+        return LDAPInfo(self.context, username=username).lookup()
 
 class DirectoryView(AtlasStructureView):
 
