@@ -22,12 +22,18 @@ class LDAPInfo(object):
         'uid', 'uidNumber',
     ]
 
-    def __init__(self, context):
+    def __init__(self, context, username=None):
         self.context = context
+        self.lookup_username = username
 
     @property
     def username(self):
 
+        # Return the username this is called with if provided
+        if self.lookup_username:
+            return self.lookup_username
+
+        # Otherwise, grab the username off the 'context'
         username = getattr(self.context, 'username', None)
 
         if username:

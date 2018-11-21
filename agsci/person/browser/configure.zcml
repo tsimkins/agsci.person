@@ -23,6 +23,14 @@
         />
 
     <browser:page
+        name="ldap"
+        for="..content.directory.IDirectory"
+        class=".views.DirectoryLDAPView"
+        permission="zope.Public"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
+        />
+
+    <browser:page
         name="view"
         for="..content.directory.IDirectory"
         class=".views.DirectoryView"
