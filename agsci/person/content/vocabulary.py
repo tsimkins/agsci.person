@@ -70,6 +70,7 @@ class ProjectProgramTeamVocabulary(object):
             (u'8902', u'Forestry & Wildlife'),
             (u'8903', u'Urban Forestry'),
             (u'8904', u'Bio-Energy'),
+            (u'8960', u'Unknown'),
             (u'9000', u'Food, Family & Health:  Base Unit Activity'),
             (u'9001', u'Health and Wellness'),
             (u'9002', u'Family Well-Being'),
