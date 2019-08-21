@@ -74,6 +74,7 @@ class ProjectProgramTeamVocabulary(object):
             (u'9000', u'Food, Family & Health:  Base Unit Activity'),
             (u'9001', u'Health and Wellness'),
             (u'9002', u'Family Well-Being'),
+            (u'9003', u'Vector Borne Diseases'),
             (u'9011', u'Blank'),
             (u'9100', u'Insect-Borne Disease Management (includes West Nile Virus)'),
         ]
