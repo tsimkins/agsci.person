@@ -94,10 +94,13 @@ class HomeBudgetVocabulary(object):
             u'0200437 BK10010',
             u'0200439 UP10010',
             u'0200466 BK10010',
+            u'0200479 UP10010',
             u'0200482 UP10010',
+            u'0400425 UP10010',
             u'0400429 UP10010',
             u'0400439 UP10010',
             u'0400449 UP10010',
+            u'0400451 UP10010',
             u'0400479 UP10010',
             u'0400480 UP10010',
             u'0400482 UP10010',
@@ -126,6 +129,7 @@ class HomeBudgetVocabulary(object):
             u'0500489 UP10010',
             u'0500490 UP10010',
             u'0500491 UP10010',
+            u'0800484 UP10010',
         ]
 
         return SimpleVocabulary(
