@@ -81,7 +81,8 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
     form.omitted('homepage', 'map_link', 'leadimage_full_width',
                  'leadimage_caption', 'hr_job_title', 'hr_admin_area',
                  'hr_department', 'all_emails', 'sso_principal_name',
-                 'project_program_team_percent', 'home_budget')
+                 'project_program_team_percent', 'home_budget',
+                 'delete_project_program_team_percent',)
 
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
@@ -225,6 +226,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         description=_(u""),
         value_type=DictRow(title=u"Program Team/Percent", schema=IProjectProgramTeamRowSchema),
         required=False
+    )
+
+    delete_project_program_team_percent= schema.Bool(
+        title=_(u"Delete Project/Program Team info"),
+        description=_(u""),
+        required=False,
+        default=False,
     )
 
 
