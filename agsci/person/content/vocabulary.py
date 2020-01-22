@@ -37,6 +37,7 @@ class ProjectProgramTeamVocabulary(object):
     def __call__(self, context):
 
         items = [
+            (u'4275', u'Unknown'),
             (u'8000', u'4-H Youth Development: Base Unit Activity'),
             (u'8001', u'4-H Youth Development: Science'),
             (u'8002', u'4-H Youth Development: Volunteer Management & Development'),
@@ -45,6 +46,7 @@ class ProjectProgramTeamVocabulary(object):
             (u'8101', u'New & Beginning Farmers'),
             (u'8102', u'Shale Gas'),
             (u'8103', u'Ag Entrepreneurship/ECD'),
+            (u'8105', u'Unknown'),
             (u'8201', u'Dairy Profitability & Sustainability'),
             (u'8300', u'Blank'),
             (u'8301', u'Equine'),
