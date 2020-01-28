@@ -37,7 +37,7 @@ class ProjectProgramTeamVocabulary(object):
     def __call__(self, context):
 
         items = [
-            (u'4275', u'Unknown'),
+            (u'4275', u'Administrative Project'),
             (u'8000', u'4-H Youth Development: Base Unit Activity'),
             (u'8001', u'4-H Youth Development: Science'),
             (u'8002', u'4-H Youth Development: Volunteer Management & Development'),
@@ -46,9 +46,8 @@ class ProjectProgramTeamVocabulary(object):
             (u'8101', u'New & Beginning Farmers'),
             (u'8102', u'Shale Gas'),
             (u'8103', u'Ag Entrepreneurship/ECD'),
-            (u'8105', u'Unknown'),
+            (u'8105', u'Leadership & Community Vitality'),
             (u'8201', u'Dairy Profitability & Sustainability'),
-            (u'8300', u'Blank'),
             (u'8301', u'Equine'),
             (u'8401', u'Livestock Profitability & Sustainability'),
             (u'8402', u'Farm Animal Welfare Team'),
@@ -72,12 +71,10 @@ class ProjectProgramTeamVocabulary(object):
             (u'8902', u'Forestry & Wildlife'),
             (u'8903', u'Urban Forestry'),
             (u'8904', u'Bio-Energy'),
-            (u'8960', u'Unknown'),
             (u'9000', u'Food, Family & Health:  Base Unit Activity'),
             (u'9001', u'Health and Wellness'),
             (u'9002', u'Family Well-Being'),
             (u'9003', u'Vector Borne Diseases'),
-            (u'9011', u'Blank'),
             (u'9100', u'Insect-Borne Disease Management (includes West Nile Virus)'),
         ]
 
