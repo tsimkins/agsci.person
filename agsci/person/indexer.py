@@ -1,6 +1,8 @@
-from .content.person import IPerson
+from Acquisition import aq_base
 from plone.indexer import indexer
 from zope.component import provideAdapter
+
+from .content.person import IPerson
 
 # Indexers for person's sortable title
 @indexer(IPerson)
@@ -23,3 +25,11 @@ def PersonClassifications(context):
     return []
 
 provideAdapter(PersonClassifications, name='Classifications')
+
+
+# County for the item
+@indexer(IPerson)
+def PersonCounty(context):
+    return getattr(aq_base(context), 'county', [])
+
+provideAdapter(PersonCounty, name='County')
