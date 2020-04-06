@@ -26,7 +26,6 @@
   <element value="dexterity.membrane.behavior.user.IMembraneUser" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasPersonEPASMetadata" />
  </property>
 
   <property name="schema">agsci.person.content.person.IPerson</property>
