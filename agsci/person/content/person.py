@@ -24,7 +24,7 @@ from .. import personMessageFactory as _
 
 class IProjectProgramTeamRowSchema(Interface):
 
-    project_program_team  = schema.Choice(
+    project_program_team = schema.Choice(
         title=_(u"Project / Program Team"),
         vocabulary="agsci.person.project_program_team",
         required=False,
@@ -33,6 +33,37 @@ class IProjectProgramTeamRowSchema(Interface):
     percent_allocated = schema.Decimal(
         title=_(u"Percent Allocated"),
         description=_(u""),
+        required=False,
+    )
+
+class IProjectPercentRowSchema(Interface):
+
+    percent_allocated = schema.Decimal(
+        title=_(u"Percent Allocated"),
+        description=_(u""),
+        required=False,
+    )
+
+    budget = schema.Choice(
+        title=_(u"Budget"),
+        vocabulary="agsci.person.budget",
+        required=False,
+    )
+
+    responsible_cost_center = schema.Choice(
+        title=_(u"Responsible Cost Center"),
+        vocabulary="agsci.person.cost_center",
+        required=False,
+    )
+
+    project = schema.Choice(
+        title=_(u"Project"),
+        vocabulary="agsci.person.project",
+        required=False,
+    )
+
+    project_title = schema.TextLine(
+        title=_(u"Project Title"),
         required=False,
     )
 
@@ -82,7 +113,8 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
                  'leadimage_caption', 'hr_job_title', 'hr_admin_area',
                  'hr_department', 'all_emails', 'sso_principal_name',
                  'project_program_team_percent', 'home_budget',
-                 'delete_project_program_team_percent',)
+                 'delete_project_program_team_percent', 'home_cost_center',
+                 'project_percent',)
 
     form.mode(leadimage_show='hidden')
     form.order_after(leadimage='suffix')
@@ -97,9 +129,12 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
 
     # Project / Program Team / Percent
     form.widget(project_program_team_percent=DataGridFieldFactory)
+    form.widget(project_percent=DataGridFieldFactory)
     form.write_permission(
         project_program_team_percent=ATLAS_SUPERUSER,
         home_budget=ATLAS_SUPERUSER,
+        home_cost_center=ATLAS_SUPERUSER,
+        project_percent=ATLAS_SUPERUSER,
     )
 
     # Internal Fields
@@ -215,9 +250,15 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         required=False
     )
 
-    home_budget  = schema.Choice(
+    home_budget = schema.Choice(
         title=_(u"Home Budget"),
         vocabulary="agsci.person.home_budget",
+        required=False,
+    )
+
+    home_cost_center = schema.Choice(
+        title=_(u"Home Cost Center"),
+        vocabulary="agsci.person.cost_center",
         required=False,
     )
 
@@ -225,6 +266,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         title=_(u"Project/Program Team and Percent"),
         description=_(u""),
         value_type=DictRow(title=u"Program Team/Percent", schema=IProjectProgramTeamRowSchema),
+        required=False
+    )
+
+    project_percent = schema.List(
+        title=_(u"Project Percent"),
+        description=_(u""),
+        value_type=DictRow(title=u"Project Percent", schema=IProjectPercentRowSchema),
         required=False
     )
 
