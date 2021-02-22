@@ -74,8 +74,8 @@ class IProjectPercentRowSchema(Interface):
 contact_fields = [
     'email', 'venue', 'street_address', 'city', 'state',
     'zip_code', 'latitude', 'longitude', 'phone_number',
-    'fax_number', 'primary_profile_url', 'summary_report_frequency',
-    'summary_report_blank',
+    'fax_number', 'primary_profile_url', 'pronouns',
+    'summary_report_frequency', 'summary_report_blank',
 ]
 
 professional_fields = [
@@ -226,6 +226,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         title=_(u"Primary Profile URL"),
         description=_(u"URL of primary profile (if not Extension site)"),
         required=False,
+    )
+
+    pronouns = schema.TextLine(
+        title=_(u"Pronouns"),
+        description=_(u"He/Him, She/Her, They/Them"),
+        required=False,
+        max_length=20
     )
 
     summary_report_frequency = schema.Choice(
