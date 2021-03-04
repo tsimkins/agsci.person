@@ -16,6 +16,7 @@ class ClassificationsVocabulary(object):
         'Director',
         'Associate Director',
         'Assistant Director of Programs',
+        'Assistant Director for County Operations',
         'Client Relations Manager',
         'Business Operations Manager',
         'Leadership Team',
