@@ -24,9 +24,8 @@ from .. import personMessageFactory as _
 
 class IProjectProgramTeamRowSchema(Interface):
 
-    project_program_team = schema.Choice(
+    project_program_team = schema.TextLine(
         title=_(u"Project / Program Team"),
-        vocabulary="agsci.person.project_program_team",
         required=False,
     )
 
@@ -44,21 +43,18 @@ class IProjectPercentRowSchema(Interface):
         required=False,
     )
 
-    budget = schema.Choice(
+    budget = schema.TextLine(
         title=_(u"Budget"),
-        vocabulary="agsci.person.budget",
         required=False,
     )
 
-    responsible_cost_center = schema.Choice(
+    responsible_cost_center = schema.TextLine(
         title=_(u"Responsible Cost Center"),
-        vocabulary="agsci.person.cost_center",
         required=False,
     )
 
-    project = schema.Choice(
+    project = schema.TextLine(
         title=_(u"Project"),
-        vocabulary="agsci.person.project",
         required=False,
     )
 
@@ -257,15 +253,13 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
         required=False
     )
 
-    home_budget = schema.Choice(
+    home_budget = schema.TextLine(
         title=_(u"Home Budget"),
-        vocabulary="agsci.person.home_budget",
         required=False,
     )
 
-    home_cost_center = schema.Choice(
+    home_cost_center = schema.TextLine(
         title=_(u"Home Cost Center"),
-        vocabulary="agsci.person.cost_center",
         required=False,
     )
 
