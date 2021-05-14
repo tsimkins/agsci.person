@@ -27,18 +27,6 @@
     />
 
     <utility
-        name="agsci.person.project_program_team"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.ProjectProgramTeamVocabularyFactory"
-    />
-
-    <utility
-        name="agsci.person.home_budget"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.HomeBudgetVocabularyFactory"
-    />
-
-    <utility
         name="agsci.person.crm"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.CRMVocabularyFactory"
@@ -48,24 +36,6 @@
         name="agsci.person.bom"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.BOMVocabularyFactory"
-    />
-
-    <utility
-        name="agsci.person.cost_center"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.CostCenterVocabularyFactory"
-    />
-
-    <utility
-        name="agsci.person.budget"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.BudgetVocabularyFactory"
-    />
-
-    <utility
-        name="agsci.person.project"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.ProjectVocabularyFactory"
     />
 
 </configure>
