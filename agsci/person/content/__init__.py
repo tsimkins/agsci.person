@@ -10,7 +10,6 @@ class LDAPInfo(object):
 
     hosts = [
         'ldap://dirapps.aset.psu.edu',
-        'ldap://fps.psu.edu'
     ]
 
     attrs = [
