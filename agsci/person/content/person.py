@@ -120,6 +120,7 @@ class IPerson(IMember, IAtlasContact, ILeadImageBase, IAtlasSocialMediaBase):
     form.write_permission(username=ATLAS_DIRECTORY)
     form.write_permission(classifications=ATLAS_DIRECTORY)
     form.write_permission(primary_profile_url=ATLAS_DIRECTORY)
+    form.write_permission(county=ATLAS_DIRECTORY)
     form.write_permission(latitude=ATLAS_DIRECTORY)
     form.write_permission(longitude=ATLAS_DIRECTORY)
 
