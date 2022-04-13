@@ -17,7 +17,7 @@ class ClassificationsVocabulary(object):
         'Associate Director',
         'Assistant Director of Programs',
         'Assistant Director for County Operations',
-        'Client Relations Manager',
+        'Client Relationship Manager',
         'Business Operations Manager',
         'Leadership Team',
         'Team Marketing Coordinator',
@@ -53,7 +53,7 @@ class PersonClassificationsVocabulary(object):
 class CRMVocabulary(PersonClassificationsVocabulary):
 
     find_classifications = [
-        'Client Relations Manager',
+        'Client Relationship Manager',
     ]
 
 class BOMVocabulary(PersonClassificationsVocabulary):
