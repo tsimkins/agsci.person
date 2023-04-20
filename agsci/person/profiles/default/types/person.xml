@@ -51,4 +51,9 @@
     url_expr="string:${object_url}/@@analytics" visible="True">
   <permission value="agsci.atlas.analytics"/>
  </action>
+ <action title="Review Queue" action_id="review" category="object"
+    condition_expr="" description="" icon_expr="" link_target=""
+    url_expr="string:${object_url}/@@review" visible="True">
+  <permission value="View"/>
+ </action>
 </object>
