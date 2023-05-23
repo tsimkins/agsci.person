@@ -25,7 +25,7 @@ class PersonView(BaseView):
 
         # Remove leadimage field from person data. It's already included from
         # the main API
-        if sd.has_key('leadimage'):
+        if 'leadimage' in sd:
             del sd['leadimage']
 
         # Add a 'job_title' field with the primary job title

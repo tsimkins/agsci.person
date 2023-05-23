@@ -1,13 +1,12 @@
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from zope.interface import implements
+from zope.interface import implementer
 
 from agsci.atlas.utilities import SitePeople
 
 # Directory classifications for people
+@implementer(IVocabularyFactory)
 class ClassificationsVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     items = [
         'Faculty',
@@ -30,9 +29,8 @@ class ClassificationsVocabulary(object):
             [SimpleTerm(x ,title=x) for x in self.items]
         )
 
+@implementer(IVocabularyFactory)
 class PersonClassificationsVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     find_classifications = []
 

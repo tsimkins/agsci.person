@@ -10,7 +10,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import implements, provider, implementer, Interface
+from zope.interface import implementer, provider, implementer, Interface
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.permissions import *
@@ -393,8 +393,8 @@ class ITitleFromPersonUserId(INameFromTitle):
     def title():
         """Return a processed title"""
 
+@implementer(ITitleFromPersonUserId)
 class TitleFromPersonUserId(object):
-    implements(ITitleFromPersonUserId)
 
     def __init__(self, context):
         self.context = context

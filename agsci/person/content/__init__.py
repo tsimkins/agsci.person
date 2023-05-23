@@ -1,5 +1,9 @@
 from Products.CMFPlone.utils import safe_unicode
-from urlparse import urlparse
+
+try:
+    from urllib.parse import urlparse # Python 3
+except ImportError:
+    from urlparse import urlparse # Python 2
 
 import ldap
 import re
@@ -65,7 +69,7 @@ class LDAPInfo(object):
                     for r in results:
                         (_id, data) = r
 
-                        for (k,v) in data.iteritems():
+                        for (k,v) in data.items():
 
                             if isinstance(v, (tuple, list)):
                                 if len(v) == 1:
