@@ -67,13 +67,21 @@ class LDAPInfo(object):
                     results = con.search_s( base_dn, ldap.SCOPE_SUBTREE, _filter, self.attrs )
 
                     for r in results:
-                        (_id, data) = r
+                        (_id, _data) = r
 
-                        for (k,v) in data.items():
+                        data = {}
+
+                        for (k,v) in _data.items():
 
                             if isinstance(v, (tuple, list)):
                                 if len(v) == 1:
-                                    data[k] = v[0]
+                                    data[k] = safe_unicode(v[0])
+                                else:
+                                    data[k] = [safe_unicode(x) for x in v]
+                            elif isinstance(v, (bytes,)):
+                                data[k] = safe_unicode(v)
+                            else:
+                                data[k] = v
 
                         data['ldap_host'] = self.ldap_host(host)
 
@@ -88,14 +96,14 @@ class LDAPInfo(object):
         if self.is_fps(ldap_data):
             return ''
 
-        phone_number = ldap_data.get('psOfficePhone', '')
+        phone_number = safe_unicode(ldap_data.get('psOfficePhone', ''))
 
         if not phone_number:
-            _ = ldap_data.get('telephoneNumber', '')
+            _ = safe_unicode(ldap_data.get('telephoneNumber', ''))
 
-            if _ and isinstance(_, (str, unicode)):
+            if _ and isinstance(_, (str, )):
 
-                _re = re.compile('^\s*\+1\s*(\d{3})[\s\-\.]*(\d{3})[\s\-\.]*(\d{4})\s*$')
+                _re = re.compile(r'^\s*\+1\s*(\d{3})[\s\-\.]*(\d{3})[\s\-\.]*(\d{4})\s*$')
 
                 m = _re.match(_)
 
@@ -115,7 +123,7 @@ class LDAPInfo(object):
         city = state = zip_code = ''
 
         # Get street address from LDAP data
-        street_address = ldap_data.get('postalAddress', '').title()
+        street_address = safe_unicode(ldap_data.get('postalAddress', '').title())
 
         # Clean spurious UP in street address
         _up = '$UNIVERSITY PARK$'.title()
@@ -128,7 +136,7 @@ class LDAPInfo(object):
         if len(street_address) > 1:
 
             # Check last line for city, state ZIP
-            _csz_re = re.compile("^(.*),\s*(..)\s+([\d\-]+)\s*")
+            _csz_re = re.compile(r"^(.*),\s*(..)\s+([\d\-]+)\s*")
 
             _csz = _csz_re.match(street_address[-1])
 
@@ -151,7 +159,7 @@ class LDAPInfo(object):
 class LDAPPersonCreator(LDAPInfo):
 
     def __init__(self, psu_id=None):
-        self.psu_id = psu_id
+        self.psu_id = safe_unicode(psu_id)
 
     @property
     def username(self):
@@ -166,8 +174,8 @@ class LDAPPersonCreator(LDAPInfo):
             raise ValueError(u"%s not found in LDAP." % self.username)
 
         # Names
-        givenName = ldap_data.get('givenName', '').title()
-        last_name = ldap_data.get('sn', '').title()
+        givenName = safe_unicode(ldap_data.get('givenName', '').title())
+        last_name = safe_unicode(ldap_data.get('sn', '').title())
 
         if ' ' in givenName:
             first_name = " ".join(givenName.split()[0:-1])
@@ -180,7 +188,7 @@ class LDAPPersonCreator(LDAPInfo):
         phone_number = self.get_phone_number(ldap_data)
 
         # Email
-        email = ldap_data.get('mail', '')
+        email = safe_unicode(ldap_data.get('mail', ''))
 
         # Office Address
         (street_address, city, state, zip_code) = self.get_address(ldap_data)
@@ -188,7 +196,7 @@ class LDAPPersonCreator(LDAPInfo):
         # Job Titles
         job_titles = []
 
-        job_title = ldap_data.get('title', '').title()
+        job_title = safe_unicode(ldap_data.get('title', '').title())
 
         if job_title:
             job_titles.append(safe_unicode(job_title))
