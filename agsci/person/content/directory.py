@@ -20,5 +20,4 @@ class Directory(Container):
         if modified:
             query['modified'] = modified
 
-        return map(lambda x: x.getObject(), portal_catalog.searchResults(query))
-
+        return [x.getObject() for x in portal_catalog.searchResults(query)]
