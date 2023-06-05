@@ -8,8 +8,8 @@ from .content.person import IPerson
 @indexer(IPerson)
 def PersonSortableTitle(context):
     t = [getattr(context, x, '') for x in ('last_name', 'first_name')]
-    t = map(lambda x: x.lower(), t)
-    return tuple(t)
+    t = [x.lower() for x in t]
+    return ", ".join(tuple(t))
 
 provideAdapter(PersonSortableTitle, name='sortable_title')
 
