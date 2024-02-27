@@ -32,7 +32,8 @@ class PersonView(BaseView):
         job_titles = sd.get('person_job_titles', [])
 
         if job_titles:
-            sd['person_job_title'] = sd['short_description'] = job_titles[0] # Note *singular*
+            sd['person_job_title'] = job_titles[0]
+            sd['short_description'] = "<br />".join([x for x in job_titles if x.strip()])
 
         # Split `street_address` into a list
         street_address = data.get('address', None)
