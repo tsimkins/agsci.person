@@ -1,6 +1,5 @@
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import IMembraneUserRoles
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from dexterity.membrane.behavior.user import DxUserObject
 from dexterity.membrane.content.member import IMember
 from plone.app.content.interfaces import INameFromTitle
@@ -11,6 +10,12 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer, provider, implementer, Interface
+
+try:
+    from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+except ImportError:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.permissions import *
