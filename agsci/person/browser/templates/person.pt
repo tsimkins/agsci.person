@@ -11,12 +11,10 @@
 
     <tal:expired
         tal:condition="view/isExpired|nothing">
-        <dl class="portalMessage info">
-            <dt>Note</dt>
-            <dd>
-                <span tal:replace="context/title"/> is no longer associated with this organization.
-            </dd>
-        </dl>
+        <div class="portalMessage statusmessage statusmessage-info alert alert-info">
+            <strong>Note:</strong>
+            <span tal:replace="context/title"/> is no longer associated with this organization.
+        </div>
     </tal:expired>
 
     <h1 metal:use-macro="context/kss_generic_macros/macros/generic_title_view" />
