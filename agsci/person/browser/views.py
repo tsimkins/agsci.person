@@ -2,9 +2,11 @@ from DateTime import DateTime
 from zope.component.hooks import getSite
 from zope.interface import Interface
 
-from agsci.atlas.browser.views import AtlasStructureView
-from agsci.atlas.browser.views.sync.fsd_person import SyncFSDPersonView
 from agsci.api.api import BaseView
+from agsci.atlas.browser.views import AtlasStructureView
+from agsci.atlas.browser.views.sync import SyncContentView
+from agsci.atlas.utilities import SitePeople
+from agsci.person.content.vocabulary import ClassificationsVocabulary
 
 from ..content import LDAPInfo, LDAPPersonCreator
 
@@ -62,27 +64,20 @@ class DirectoryView(AtlasStructureView):
     def getPeople(self, contentFilter={}):
         return self.portal_catalog.searchResults({'Type' : 'Person', 'sort_on' : 'sortable_title'})
 
-class ImportPersonView(SyncFSDPersonView):
+
+class ImportPersonView(SyncContentView):
+
+    validate_ip = False
+
+    # Translation of old to new attribute names
+    translation = [
+        ('email', 'email'),
+        ('get_id', 'username'),
+    ]
 
     @property
-    def username(self):
-        return self.request.get('username', None)
-
-    def importContent(self):
-
-        if self.username:
-            v = LDAPPersonCreator(self.username).content_importer
-
-            item = self.createObject(self.import_path, v)
-
-            self.finalize(item)
-
-            rv = [
-                json.loads(self.getJSON(item))
-            ]
-
-            return json.dumps(rv, indent=4, sort_keys=True)
-
+    def import_path(self):
+        return getSite()['directory']
 
     def requestValidation(self):
 
@@ -107,3 +102,59 @@ class ImportPersonView(SyncFSDPersonView):
             raise ValueError("%s already in directory." % self.username)
 
         return True
+
+    def importContent(self):
+
+        if self.username:
+            v = LDAPPersonCreator(self.username).content_importer
+
+            item = self.createObject(self.import_path, v)
+
+            self.finalize(item)
+
+            rv = [
+                json.loads(self.getJSON(item))
+            ]
+
+            return json.dumps(rv, indent=4, sort_keys=True)
+
+    # Deactivate people who are expired and active.
+    def deactivateExpiredPeople(self):
+
+        sp = SitePeople()
+
+        expired_active_people = sp.expired_active_people
+
+        for r in expired_active_people:
+
+            o = r.getObject()
+
+            msg = 'Automatically deactivating %s (%s) based on expiration date.' % (r.Title, r.getId)
+
+            self.log(msg)
+            sp.wftool.doActionFor(o, 'deactivate', comment=msg)
+            o.reindexObject()
+
+        self.log("Deactivated %d people" % len(expired_active_people))
+
+    @property
+    def username(self):
+        return self.request.get('username', None)
+
+
+    def getId(self, v):
+        return v.data.get_id
+
+    def getRequestDataAsArguments(self, v, item=None):
+        data = super(ImportPersonView, self).getRequestDataAsArguments(v, item=None)
+
+        # Get old and new fields from translation, and add values for new fields
+        # if they exist
+        for (old_key, new_key) in self.translation:
+
+            value = getattr(v.data, old_key)
+
+            if value:
+                data[new_key] = value
+
+        return data
