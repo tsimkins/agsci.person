@@ -308,15 +308,18 @@ class PersonDefaultRoles(DxUserObject):
         # Get workflow state
         review_state = wftool.getInfoFor(self.context, 'review_state')
 
+        # Get classifications for person
+        classifications = getattr(self.context, 'classifications', [])
+
         # Validate that person is published
         if review_state in ['published',]:
-
-            # Get classifications for person
-            classifications = getattr(self.context, 'classifications', [])
 
             # If the person has classification, but isn't a volunteer, they're a Member
             if classifications and 'Volunteer' not in classifications:
                 return DEFAULT_ROLES
+        else:
+            if 'Emeritus Faculty' in classifications:
+                return ['Authenticated']
 
         # Default to no default roles
         return []

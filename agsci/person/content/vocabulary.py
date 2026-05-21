@@ -21,6 +21,7 @@ class ClassificationsVocabulary(object):
         'Leadership Team',
         'Team Marketing Coordinator',
         'Volunteer',
+        'Emeritus Faculty',
     ]
 
     def __call__(self, context):
