@@ -11,6 +11,7 @@ class ClassificationsVocabulary(object):
     items = [
         'Faculty',
         'Educator',
+        'Agent',
         'Staff',
         'Director',
         'Associate Director',
