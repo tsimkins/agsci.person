@@ -10,6 +10,7 @@ except ImportError:
 
 import ldap
 import re
+import requests
 
 from agsci.atlas.content.sync import SyncContentImporter
 
@@ -28,9 +29,42 @@ class LDAPInfo(object):
         'uid', 'uidNumber',
     ]
 
+    api_mapping = {
+        'ps-department' : 'psDepartment',
+        'postal-address' : 'psOfficeAddress',
+    }
+
     def __init__(self, context, username=None):
         self.context = context
         self.lookup_username = username
+
+    @property
+    def api_info(self):
+
+        if self.username:
+
+            url = f'https://directory-service.k8s.psu.edu/directory-service-web/resources/people/{self.username}'
+
+            headers = {
+                'Accept' : 'application/vnd-psu.edu-v1+json',
+                'Use-Write-Connection' : 'false',
+            }
+
+            response = requests.get(url, headers=headers)
+
+            if response.status_code in (200,):
+
+                _ = response.json()
+
+                _rv = {}
+
+                for (k,v) in self.api_mapping.items():
+                    if k in _ and _[k]:
+                        _rv[v] = _[k]
+
+                return _rv
+
+        return {}
 
     @property
     def username(self):
@@ -87,6 +121,9 @@ class LDAPInfo(object):
                                 data[k] = v
 
                         data['ldap_host'] = self.ldap_host(host)
+
+                        # Pull restricted fields from API
+                        data.update(self.api_info)
 
                         return data
         return {}
