@@ -163,7 +163,7 @@ class LDAPInfo(object):
         city = state = zip_code = ''
 
         # Get street address from LDAP data
-        street_address = safe_unicode(ldap_data.get('postalAddress', '').title())
+        street_address = safe_unicode(ldap_data.get('psOfficeAddress', '').title())
 
         # Clean spurious UP in street address
         _up = '$UNIVERSITY PARK$'.title()
