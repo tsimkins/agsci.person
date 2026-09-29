@@ -185,11 +185,7 @@ class LDAPInfo(object):
                 street_address = street_address[:-1]
                 state = state.upper()
 
-        # Join with <cr>
-        street_address = "\n".join(street_address)
-
-        # Strip
-        street_address = street_address.strip()
+        street_address = [x.strip() for x in street_address if x.strip()]
 
         return (street_address, city, state, zip_code)
 
